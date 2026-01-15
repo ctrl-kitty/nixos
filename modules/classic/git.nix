@@ -3,6 +3,7 @@
   programs.git = {
 	enable = true;
 	config = {
+	push.autoSetupRemote = true;
 	  user = {
 		name = "ctrl-kitty";
 		email = "<>";
