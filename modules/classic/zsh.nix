@@ -6,7 +6,6 @@
 	./git.nix
   ];
   environment.systemPackages = with pkgs; [
-    ghostty
     eza           # Modern ls replacement
     ripgrep       # Fast grep alternative
     fd            # Fast find alternative
