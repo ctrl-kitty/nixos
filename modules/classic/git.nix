@@ -3,8 +3,11 @@
   programs.git = {
 	enable = true;
 	config = {
-	  userName = "ctrl-kitty";
-	  aliases = {
+	  user = {
+		name = "ctrl-kitty";
+		email = "<>";
+	  };
+	  alias = {
 		st = "status -sb";
 		s = "status --short --branch";
 		
