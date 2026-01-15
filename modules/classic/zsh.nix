@@ -1,8 +1,9 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
 	./starship.nix
+	./git.nix
   ];
   environment.systemPackages = with pkgs; [
     ghostty
@@ -46,8 +47,6 @@
       upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#RedNixOs --update-input nixpkgs-unstable";
       ptun = "sudo tun2proxy-bin --proxy http://127.0.0.1:2080 --tun ptun";
       
-      # Productivity
-#      grep = "rg";
       find = "fd";
       du = "dust";
       df = "duf";
@@ -57,7 +56,6 @@
     histFile = "$HOME/.zsh_history";
 
     interactiveShellInit = ''
-      bindkey -v
       export KEYTIMEOUT=1
 
 	  eval "$(${pkgs.zoxide}/bin/zoxide init zsh --cmd cd)"

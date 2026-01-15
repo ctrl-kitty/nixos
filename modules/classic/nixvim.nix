@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  environment.variables.EDITOR = "nvim";
+  environment.variables.VISUAL = "nvim";
   programs.nixvim = {
     enable = true;
     plugins = {
