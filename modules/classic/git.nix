@@ -6,7 +6,7 @@
 	push.autoSetupRemote = true;
 	  user = {
 		name = "ctrl-kitty";
-		email = "<>";
+		email = "104305684+ctrl-kitty@users.noreply.github.com";
 	  };
 	  alias = {
 		st = "status -sb";
