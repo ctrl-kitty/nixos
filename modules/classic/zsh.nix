@@ -54,11 +54,19 @@
 
     histSize = 50000;
     histFile = "$HOME/.zsh_history";
-
     interactiveShellInit = ''
+	  bindkey -e
       export KEYTIMEOUT=1
-
 	  eval "$(${pkgs.zoxide}/bin/zoxide init zsh --cmd cd)"
+	  # ctrl + left/right
+      bindkey "^[[1;5D" backward-word
+	  bindkey "^[[1;5C" forward-word
+	  # delete
+      bindkey "^[[3~"   delete-char
+	  # ctrl + backspace
+      bindkey "^H"      backward-kill-word
+	  # ctrl + delete
+      bindkey "^[[3;5~" delete-word
     '';
   };
 

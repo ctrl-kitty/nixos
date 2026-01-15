@@ -3,8 +3,12 @@
   programs.git = {
 	enable = true;
 	config = {
-	  userName = "ctrl-kitty";
-	  aliases = {
+	push.autoSetupRemote = true;
+	  user = {
+		name = "ctrl-kitty";
+		email = "<>";
+	  };
+	  alias = {
 		st = "status -sb";
 		s = "status --short --branch";
 		
