@@ -1,8 +1,18 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  environment.systemPackages = with pkgs; [
+	delta
+  ];
   programs.git = {
 	enable = true;
 	config = {
+	  core.pager = "delta";
+	  interactive.diffFilter = "delta --color-only";
+	  delta = {
+	    navigate = true;
+	    line-numbers = true;
+	    side-by-side = false;
+	  };
 	push.autoSetupRemote = true;
 	  user = {
 		name = "ctrl-kitty";
