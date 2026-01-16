@@ -12,7 +12,8 @@
   # Use latest kernel.
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   networking.hostName = "RedNix"; # Define your hostname.
-
+  # -5.8s boot time
+  systemd.services.NetworkManager-wait-online.enable = false;
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Moscow";
@@ -55,7 +56,7 @@
   };
 
   services.libinput.enable = true;
-
+  
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ktvsky = {
     isNormalUser = true;

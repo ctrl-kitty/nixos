@@ -44,7 +44,8 @@
       clean = "sudo nix-collect-garbage -d && nix store optimise";
       rebuild = "sudo nixos-rebuild build --flake ~/.dotfiles/nixos#RedNixOs";
       upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#RedNixOs --update-input nixpkgs-unstable";
-      ptun = "sudo tun2proxy-bin --proxy http://127.0.0.1:2080 --tun ptun";
+      repl = "nixos-rebuild repl --flake ~/.dotfiles/nixos#RedNixOs";
+	  ptun = "sudo tun2proxy-bin --proxy http://127.0.0.1:2080 --tun ptun";
       
       find = "fd";
       du = "dust";

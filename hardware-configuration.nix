@@ -31,7 +31,8 @@
   # hand written
   hardware.graphics = {
     enable = true;
-  }; 
+  };
+  services.fwupd.enable = false;
   services.xserver.videoDrivers = ["nvidia" "amdgpu"];
   hardware.nvidia = {
     modesetting.enable = true;
