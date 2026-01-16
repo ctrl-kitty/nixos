@@ -5,7 +5,6 @@
 	nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
     opencode.url = "github:anomalyco/opencode?ref=dev";
-#    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,12 +13,16 @@
       url = "github:nix-community/nixvim/nixos-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+	stylix = {
+      url = "github:nix-community/stylix/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 	burpsuitepro = {
 	  url = "github:xiv3r/Burpsuite-Professional/main";
 	  inputs.nixpkgs.follows = "nixpkgs";
 	};
   };
-  outputs = { nixpkgs, nixpkgs-unstable, opencode, home-manager, nixvim, burpsuitepro, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, opencode, home-manager, nixvim, stylix, burpsuitepro, ... }@inputs:
   let
     pkgsConfig = {
       config.allowUnfree = true;
@@ -53,11 +56,12 @@
   {
     nixosConfigurations = {
       RedNixOs = nixpkgs.lib.nixosSystem {
-		specialArgs = { inherit inputs home-manager nixvim; };
+		specialArgs = { inherit inputs; };
         modules = [
           ./configuration.nix
           nixvim.nixosModules.nixvim
 		  home-manager.nixosModules.default
+		  stylix.nixosModules.stylix
           { nixpkgs = pkgsConfig; }
 		];
       };
