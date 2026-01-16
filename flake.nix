@@ -56,8 +56,8 @@
 		specialArgs = { inherit inputs home-manager nixvim; };
         modules = [
           ./configuration.nix
-#	      nixos-hardware.nixosModules.asus-fa507nv
           nixvim.nixosModules.nixvim
+		  home-manager.nixosModules.default
           { nixpkgs = pkgsConfig; }
 		];
       };

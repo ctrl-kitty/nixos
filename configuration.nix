@@ -1,11 +1,10 @@
-{ home-manager, ... }:
+{ ... }:
 {
   imports =
     [
       ./hardware-configuration.nix
       ./modules/default.nix
       ./home/default.nix
-      home-manager.nixosModules.default
     ];
 
   boot.loader.systemd-boot.enable = true;
