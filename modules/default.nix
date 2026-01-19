@@ -23,7 +23,7 @@
   environment.systemPackages = with pkgs; [
     tree
     tun2proxy
-    telegram-desktop
+#    telegram-desktop
     psmisc
     opencode # 4 gb trash??
     libreoffice-qt6-fresh #1.5 gb
@@ -34,6 +34,8 @@
     steam-run
     uv
 	mpv
+	tor-browser
+	ayugram-desktop
     # unstable.pkgName
   ];
 }

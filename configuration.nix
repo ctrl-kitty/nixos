@@ -1,16 +1,16 @@
 { pkgs, ... }:
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./modules/default.nix
-      ./home/default.nix
-    ];
-
+  imports = [
+    ./hardware-configuration.nix
+    ./modules/default.nix
+    ./home/default.nix
+  ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # Use latest kernel.
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   networking.hostName = "RedNix"; # Define your hostname.
   # -5.8s boot time
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -56,12 +56,18 @@
   };
 
   services.libinput.enable = true;
-  
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ktvsky = {
     isNormalUser = true;
     description = "ktvsky";
-    extraGroups = [ "networkmanager" "wheel" "adbusers" "kvm" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "adbusers"
+      "kvm"
+      "docker"
+    ];
   };
   # https://github.com/nix-community/stylix/issues/267#issuecomment-2314636091
   environment.plasma6.excludePackages = with pkgs.kdePackages; [

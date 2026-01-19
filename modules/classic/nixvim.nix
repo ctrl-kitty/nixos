@@ -1,6 +1,7 @@
-{ pkgs, ... }:
-
-{
+{pkgs,lib, ...}: {
+  environment.systemPackages = with pkgs; [
+	nixfmt
+  ];
   environment.variables.EDITOR = "nvim";
   environment.variables.VISUAL = "nvim";
   programs.nixvim = {
@@ -8,17 +9,16 @@
     plugins = {
       lualine.enable = true;
       neo-tree.enable = true;
-	  lspconfig.enable = true;
-	  blink-cmp = {
-	    enable = true;
-		settings = {
-		  keymap = { preset = "super-tab"; };
-		  sources = { default = ["lsp" "path" "snippets" "buffer" ]; };
-		};
-	  };
-	  web-devicons.enable = true;
-	  
-	  telescope = {
+      lspconfig.enable = true;
+      blink-cmp = {
+        enable = true;
+        settings = {
+          keymap = {preset = "super-tab";};
+          sources = {default = ["lsp" "path" "snippets" "buffer"];};
+        };
+      };
+      web-devicons.enable = true;
+      telescope = {
         enable = true;
         extensions = {
           fzf-native.enable = true;
@@ -34,40 +34,39 @@
       shiftwidth = 4;
       winborder = "rounded";
     };
-	diagnostic.settings = {
-	  virtual_text = true;
-	  signs = true;
-	  update_in_insert = false;
-	  underline = true;
-	  severity_sort = true;
-	};
+    diagnostic.settings = {
+      virtual_text = true;
+      signs = true;
+      update_in_insert = false;
+      underline = true;
+      severity_sort = true;
+    };
 
     globals = {
       mapleader = " ";
     };
-	lsp.servers = {
-	  nixd = {
-	    enable = true;
-		config = {
-		  keymap = {
-		    preset = "super-tab";  # Makes Tab work like VSCode
-		  };
-		  sources = {
-		    default = ["lsp" "path" "snippets" "buffer"];
-		  };
-		};
-	  };
-	  pyrefly.enable = true;
-	  lua_ls.enable = true;
-	  markdown_oxide.enable = true;
-	  docker_language_server.enable = true;
-	};
-	autoGroups = {
+    lsp.servers = {
+      nixd = {
+        enable = true;
+		config.settings.nixd = {
+          nixpkgs.expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.RedNixOs.pkgs";
+          formatting.command = ["nixfmt"];
+          options = {
+            nixos.expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.RedNixOs.options";
+          };
+        };
+      };
+      pyrefly.enable = true;
+      lua_ls.enable = true;
+      markdown_oxide.enable = true;
+      docker_language_server.enable = true;
+    };
+    autoGroups = {
       highlight_yank = {
         clear = true;
       };
     };
-	autoCmd = [
+    autoCmd = [
       {
         event = ["TextYankPost"];
         group = "highlight_yank";
@@ -78,7 +77,7 @@
         '';
       }
     ];
-	keymaps = [
+    keymaps = [
       # Open Neo-tree file manager
       {
         mode = "n";
@@ -89,7 +88,7 @@
           silent = true;
         };
       }
-      
+
       # Go to definition
       {
         mode = "n";
@@ -100,7 +99,7 @@
           silent = true;
         };
       }
-      
+
       # LSP format
       {
         mode = "n";
@@ -108,10 +107,9 @@
         action.__raw = "vim.lsp.buf.format";
         options = {
           desc = "LSP format";
-          silent = true;
         };
       }
-      
+
       # Telescope find files
       {
         mode = "n";
@@ -122,7 +120,7 @@
           silent = true;
         };
       }
-      
+
       # Telescope live grep
       {
         mode = "n";
