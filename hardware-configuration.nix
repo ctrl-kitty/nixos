@@ -4,12 +4,6 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  # video acceleration
-  hardware.graphics.extraPackages = with pkgs; [
-    amdvlk
-    rocm-opencl-icd
-    rocm-opencl-runtime
-  ];
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
@@ -57,6 +51,8 @@
     VDPAU_DRIVER = "radeonsi";
     LIBVA_DRIVER_NAME = "radeonsi";
   };
+  # turn off to use tlp
+  services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
     settings = {
