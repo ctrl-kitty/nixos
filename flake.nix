@@ -21,6 +21,10 @@
       url = "github:xiv3r/Burpsuite-Professional/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixcord = {
+      url = "github:FlameFlag/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     {
@@ -31,6 +35,7 @@
       nixvim,
       stylix,
       burpsuitepro,
+      nixcord,
       ...
     }@inputs:
     let
@@ -49,15 +54,15 @@
               paths = [ prev.ayugram-desktop ];
               buildInputs = [ final.makeWrapper ];
               postBuild = ''
-                			   wrapProgram $out/bin/AyuGram \
-                				  --set QT_QPA_PLATFORM xcb
-								  # Guide kostili https://www.reddit.com/r/hyprland/comments/1pzhnd6/guide_hyprland_telegram_desktop_official_tar/
-                				# Disable D-Bus activation so wrapper is actually used
-                				rm $out/share/applications/com.ayugram.desktop.desktop
-                				substitute ${prev.ayugram-desktop}/share/applications/com.ayugram.desktop.desktop \
-                				  $out/share/applications/com.ayugram.destop.desktop \
-                				  --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
-                			  '';
+                                			   wrapProgram $out/bin/AyuGram \
+                                				  --set QT_QPA_PLATFORM xcb
+                								  # Guide kostili https://www.reddit.com/r/hyprland/comments/1pzhnd6/guide_hyprland_telegram_desktop_official_tar/
+                                				# Disable D-Bus activation so wrapper is actually used
+                                				rm $out/share/applications/com.ayugram.desktop.desktop
+                                				substitute ${prev.ayugram-desktop}/share/applications/com.ayugram.desktop.desktop \
+                                				  $out/share/applications/com.ayugram.destop.desktop \
+                                				  --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
+                                			  '';
             };
           })
         ];
@@ -68,11 +73,11 @@
         RedNixOs = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs pkgsConfig; };
           modules = [
+            { nixpkgs = pkgsConfig; }
             ./configuration.nix
             nixvim.nixosModules.nixvim
             home-manager.nixosModules.default
             stylix.nixosModules.stylix
-            { nixpkgs = pkgsConfig; }
           ];
         };
       };

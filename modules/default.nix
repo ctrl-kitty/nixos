@@ -28,7 +28,6 @@
     opencode # 4 gb trash??
     libreoffice-qt6-fresh #1.5 gb
     git
-    discord
     wget
     obsidian
     steam-run

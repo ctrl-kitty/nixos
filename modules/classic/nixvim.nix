@@ -24,7 +24,7 @@
             ];
             providers.lsp = {
               async = true;
-              imeout_ms = 2000;
+              timeout_ms = 2000;
             };
           };
           completion.trigger = {

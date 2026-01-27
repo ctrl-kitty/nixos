@@ -5,6 +5,7 @@
     ./modules/default.nix
     ./home/default.nix
   ];
+  home-manager.useGlobalPkgs = true;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   nix.settings.experimental-features = [
