@@ -44,21 +44,21 @@
             };
             burpsuitepro = burpsuitepro.packages.${final.stdenv.hostPlatform.system}.default;
             opencode = opencode.packages.${final.stdenv.hostPlatform.system}.default;
-#            telegram-desktop = final.symlinkJoin {
-#              name = "telegram-desktop";
-#              paths = [ prev.telegram-desktop ];
-#              buildInputs = [ final.makeWrapper ];
-#              postBuild = ''
-#                			   wrapProgram $out/bin/Telegram \
-#                				  --set QT_QPA_PLATFORM xcb
-#                				# Guide kostili https://www.reddit.com/r/hyprland/comments/1pzhnd6/guide_hyprland_telegram_desktop_official_tar/
-#                				# Disable D-Bus activation so wrapper is actually used
-#                				rm $out/share/applications/org.telegram.desktop.desktop
-#                				substitute ${prev.telegram-desktop}/share/applications/org.telegram.desktop.desktop \
-#                				  $out/share/applications/org.telegram.desktop.desktop \
-#                				  --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
-#                			  '';
-#            };
+            ayugram-desktop = final.symlinkJoin {
+              name = "ayugram-desktop-overlayed";
+              paths = [ prev.ayugram-desktop ];
+              buildInputs = [ final.makeWrapper ];
+              postBuild = ''
+                			   wrapProgram $out/bin/AyuGram \
+                				  --set QT_QPA_PLATFORM xcb
+								  # Guide kostili https://www.reddit.com/r/hyprland/comments/1pzhnd6/guide_hyprland_telegram_desktop_official_tar/
+                				# Disable D-Bus activation so wrapper is actually used
+                				rm $out/share/applications/com.ayugram.desktop.desktop
+                				substitute ${prev.ayugram-desktop}/share/applications/com.ayugram.desktop.desktop \
+                				  $out/share/applications/com.ayugram.destop.desktop \
+                				  --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
+                			  '';
+            };
           })
         ];
       };
