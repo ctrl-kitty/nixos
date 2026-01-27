@@ -1,7 +1,5 @@
-{pkgs,lib, ...}: {
-  environment.systemPackages = with pkgs; [
-	nixfmt
-  ];
+{ lib, pkgs, ... }:
+{
   environment.variables.EDITOR = "nvim";
   environment.variables.VISUAL = "nvim";
   programs.nixvim = {
@@ -12,9 +10,27 @@
       lspconfig.enable = true;
       blink-cmp = {
         enable = true;
+        autoLoad = true;
         settings = {
-          keymap = {preset = "super-tab";};
-          sources = {default = ["lsp" "path" "snippets" "buffer"];};
+          keymap = {
+            preset = "super-tab";
+          };
+          sources = {
+            default = [
+              "lsp"
+              "path"
+              "snippets"
+              "buffer"
+            ];
+            providers.lsp = {
+              async = true;
+              imeout_ms = 2000;
+            };
+          };
+          completion.trigger = {
+            prefetch_on_insert = true;
+            show_on_insert = true;
+          };
         };
       };
       web-devicons.enable = true;
@@ -48,11 +64,11 @@
     lsp.servers = {
       nixd = {
         enable = true;
-		config.settings.nixd = {
-          nixpkgs.expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.RedNixOs.pkgs";
-          formatting.command = ["nixfmt"];
+        config.settings.nixd = {
+          nixpkgs.expr = "(builtins.getFlake (\"git+file://\" + toString ./.)).nixosConfigurations.RedNixOs.pkgs";
+          formatting.command = [ "${lib.getExe pkgs.nixfmt}" ];
           options = {
-            nixos.expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.RedNixOs.options";
+            nixos.expr = "(builtins.getFlake (\"git+file://\" + toString ./.)).nixosConfigurations.RedNixOs.options";
           };
         };
       };
@@ -68,7 +84,7 @@
     };
     autoCmd = [
       {
-        event = ["TextYankPost"];
+        event = [ "TextYankPost" ];
         group = "highlight_yank";
         callback.__raw = ''
           function()
