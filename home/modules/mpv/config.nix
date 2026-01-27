@@ -9,9 +9,12 @@ programs.mpv = {
     keep-open = "always";
     
     # VIDEO
+	hwdec = "fast";
     vo = "gpu";
-    profile = "gpu-hq";
+	gpu-context = "wayland";
+    profile = "fast";
     vd-lavc-dr = "yes";
+	hwdec-codecs = "all";
     
     # AUDIO
     af-add = "scaletempo2";
