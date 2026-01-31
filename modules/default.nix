@@ -1,17 +1,18 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 
 {
   imports = [
-	./classic/nixvim.nix
-	./classic/zsh.nix
-	./classic/gc.nix
-	./emulation/docker.nix
-	./emulation/wine.nix
-	./power/profiles.nix
- #	./graphic/plymouth.nix
-	./graphic/stylix.nix
-	./security/firejail.nix
-	./security/web-pentest.nix
+    ./classic/nixvim.nix
+    ./classic/zsh.nix
+    ./classic/gc.nix
+    ./emulation/docker.nix
+    ./emulation/wine.nix
+    ./power/profiles.nix
+    #	./graphic/plymouth.nix
+    ./graphic/stylix.nix
+    ./graphic/hyprland.nix
+    ./security/firejail.nix
+    ./security/web-pentest.nix
   ];
   programs.throne = {
     package = pkgs.unstable.throne;
@@ -22,20 +23,21 @@
   # for uv
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
+    nodejs_24
     tree
     tun2proxy
-#    telegram-desktop
+    #    telegram-desktop
     psmisc
     opencode # 4 gb trash??
-    libreoffice-qt6-fresh #1.5 gb
+    libreoffice-qt6-fresh # 1.5 gb
     git
     wget
     obsidian
     steam-run
     uv
-	mpv
-	tor-browser
-	ayugram-desktop
+    mpv
+    tor-browser
+    ayugram-desktop
     # unstable.pkgName
   ];
 }

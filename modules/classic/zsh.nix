@@ -47,7 +47,7 @@
       repl = "nixos-rebuild repl --flake ~/.dotfiles/nixos#RedNixOs";
 	  ptun = "sudo tun2proxy-bin --proxy http://127.0.0.1:2080 --tun ptun";
 
-      opencode = "steam-run opencode"; # opencode not statically linked yet
+      opencode = "export HTTPS_PROXY=http://127.0.0.1:2080 && steam-run opencode"; # opencode not statically linked yet
       
       find = "fd";
       du = "dust";
