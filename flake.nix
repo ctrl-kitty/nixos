@@ -67,19 +67,24 @@
           })
         ];
       };
-    in
-    {
-      nixosConfigurations = {
-        RedNixOs = nixpkgs.lib.nixosSystem {
+
+      mkHost = hostModule:
+        nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs pkgsConfig; };
           modules = [
             { nixpkgs = pkgsConfig; }
             ./configuration.nix
+            hostModule
             nixvim.nixosModules.nixvim
             home-manager.nixosModules.default
             stylix.nixosModules.stylix
           ];
         };
+    in
+    {
+      nixosConfigurations = {
+        laptop = mkHost ./hosts/laptop;
+        desktop = mkHost ./hosts/desktop;
       };
     };
 }

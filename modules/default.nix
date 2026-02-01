@@ -7,7 +7,6 @@
     ./classic/gc.nix
     ./emulation/docker.nix
     ./emulation/wine.nix
-    ./power/profiles.nix
     #	./graphic/plymouth.nix
     ./graphic/stylix.nix
     ./graphic/hyprland.nix

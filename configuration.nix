@@ -1,18 +1,19 @@
 { pkgs, ... }:
 {
   imports = [
-    ./hardware-configuration.nix
     ./modules/default.nix
     ./home/default.nix
   ];
   home-manager.useGlobalPkgs = true;
+
+  hardware.graphics.enable = true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
-  networking.hostName = "RedNix"; # Define your hostname.
   # -5.8s boot time
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.networkmanager.enable = true;
