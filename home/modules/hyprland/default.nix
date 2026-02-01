@@ -57,6 +57,7 @@
 				gaps_out = 4;
 				border_size = 2;
 			};
+			xwayland.force_zero_scaling = true;
 
 			decoration = {
 				rounding = 10;
