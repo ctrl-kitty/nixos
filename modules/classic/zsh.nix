@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, flakeHost, ... }:
 
 {
   imports = [
@@ -40,11 +40,11 @@
       lt = "eza --tree --level=2 --icons";
       
       # System management
-      update = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#RedNixOs";
+      update = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#${flakeHost}";
       clean = "sudo nix-collect-garbage -d && nix store optimise";
-      rebuild = "sudo nixos-rebuild build --flake ~/.dotfiles/nixos#RedNixOs";
-      upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#RedNixOs --update-input nixpkgs-unstable";
-      repl = "nixos-rebuild repl --flake ~/.dotfiles/nixos#RedNixOs";
+      rebuild = "sudo nixos-rebuild build --flake ~/.dotfiles/nixos#${flakeHost}";
+      upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#${flakeHost} --update-input nixpkgs-unstable";
+      repl = "nixos-rebuild repl --flake ~/.dotfiles/nixos#${flakeHost}";
 	  ptun = "sudo tun2proxy-bin --proxy http://127.0.0.1:2080 --tun ptun";
 
       opencode = "export HTTPS_PROXY=http://127.0.0.1:2080 && steam-run opencode"; # opencode not statically linked yet

@@ -68,9 +68,11 @@
         ];
       };
 
-      mkHost = hostModule:
+      mkHost = flakeHost: hostModule:
         nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs pkgsConfig; };
+          specialArgs = {
+            inherit inputs pkgsConfig flakeHost;
+          };
           modules = [
             { nixpkgs = pkgsConfig; }
             ./configuration.nix
@@ -83,8 +85,8 @@
     in
     {
       nixosConfigurations = {
-        laptop = mkHost ./hosts/laptop;
-        desktop = mkHost ./hosts/desktop;
+        laptop = mkHost "laptop" ./hosts/laptop;
+        desktop = mkHost "desktop" ./hosts/desktop;
       };
     };
 }
