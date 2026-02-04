@@ -6,5 +6,6 @@
 	./hyprland/default.nix
 	./firefox/default.nix
 	./nixcord/default.nix
+	./niri/default.nix
   ];
 }
