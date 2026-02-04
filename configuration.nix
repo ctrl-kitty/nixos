@@ -8,8 +8,6 @@
 
   hardware.graphics.enable = true;
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -17,6 +15,9 @@
   # -5.8s boot time
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.networkmanager.enable = true;
+
+  programs.nh.enable = true;
+  programs.nh.flake = "/home/ktvsky/.dotfiles/nixos/";
 
   time.timeZone = "Europe/Moscow";
 
