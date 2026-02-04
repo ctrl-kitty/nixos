@@ -43,27 +43,11 @@
       };
     };
   };
-
-  #	xdg.mimeApps = {
-  #		enable = true;
-  #		defaultApplications = {
-  #			"inode/directory" = "org.kde.dolphin.desktop";
-  #			"application/zip" = "org.kde.ark.desktop";
-  #			"application/x-7z-compressed" = "org.kde.ark.desktop";
-  #			"application/x-rar" = "org.kde.ark.desktop";
-  #			"application/x-tar" = "org.kde.ark.desktop";
-  #			"application/gzip" = "org.kde.ark.desktop";
-  #			"application/x-bzip2" = "org.kde.ark.desktop";
-  #			"application/x-xz" = "org.kde.ark.desktop";
-  #		};
-  #	};
-
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;
     portalPackage = null;
     settings = {
-
       xwayland.force_zero_scaling = true;
 
       "$mod" = "SUPER";
@@ -78,22 +62,11 @@
       general = {
         gaps_in = 6;
         gaps_out = 4;
-        border_size = 2;
+        border_size = 1;
       };
 
       decoration = {
         rounding = 10;
-        shadow = {
-          enabled = true;
-          range = 24;
-          render_power = 3;
-        };
-        blur = {
-          enabled = true;
-          size = 6;
-          passes = 3;
-          new_optimizations = true;
-        };
       };
 
       misc = {
@@ -108,10 +81,6 @@
           "easeOut, 0.05, 0.9, 0.1, 1.0"
         ];
         animation = [
-          "windows, 1, 4, easeOut, slide"
-          "windowsOut, 1, 4, easeOut, slide"
-          "border, 1, 6, easeOut"
-          "fade, 1, 4, easeOut"
           "workspaces, 1, 3, easeOut, slide"
         ];
       };
@@ -147,6 +116,11 @@
         "$mod, right, movefocus, r"
         "$mod, up, movefocus, u"
         "$mod, down, movefocus, d"
+      ];
+
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
       ];
 
       bindel = [
