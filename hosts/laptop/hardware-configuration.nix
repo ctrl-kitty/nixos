@@ -7,7 +7,8 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
-
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelParams = [ "amd_pstate=active" ];
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
