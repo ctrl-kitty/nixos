@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 {
   imports = [
@@ -38,6 +38,7 @@
     mpv
     tor-browser
     ayugram-desktop
+	prismlauncher
     # unstable.pkgName
   ];
 }
