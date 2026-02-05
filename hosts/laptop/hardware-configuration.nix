@@ -16,6 +16,7 @@
   boot.extraModulePackages = [ ];
 
   hardware.bluetooth.enable = true;
+  services.upower.enable = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/5a26d93f-cd71-4c04-b734-9e8e929a1155";
