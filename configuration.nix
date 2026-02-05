@@ -36,7 +36,7 @@
   services.xserver.enable = true;
 
   services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+#  services.desktopManager.plasma6.enable = true;
 
   services.xserver.xkb = {
     layout = "us,ru";
@@ -71,9 +71,9 @@
     ];
   };
   # https://github.com/nix-community/stylix/issues/267#issuecomment-2314636091
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    kde-gtk-config
-  ];
+# environment.plasma6.excludePackages = with pkgs.kdePackages; [
+#    kde-gtk-config
+#  ];
   programs.firefox.enable = true;
   system.stateVersion = "25.11"; # Did you read the comment?
 

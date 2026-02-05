@@ -16,3 +16,4 @@
 
 11. Clipboard manager: https://github.com/savedra1/clipse
 12. Cool bar with basic functional(mb fork) https://docs.noctalia.dev/getting-started/nixos/
+13. Rewrite power model to niri?
