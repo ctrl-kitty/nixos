@@ -5,8 +5,9 @@
 - basic
 - browser + vpn
 - communication
-4. fix F** buttons on laptop
+~~4. fix F** buttons on laptop~~
 5. change wallpaper
 6. Configure notification manager
 7. Configure fuzzel
 8. Configure lock
+9. I would like to see volume/brightness changing 
