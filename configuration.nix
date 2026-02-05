@@ -5,9 +5,7 @@
     ./home/default.nix
   ];
   home-manager.useGlobalPkgs = true;
-
   hardware.graphics.enable = true;
-
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
