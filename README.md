@@ -61,6 +61,38 @@ sudo nixos-rebuild build --flake .#<host>
   - `home/default.nix` wires Home Manager into the NixOS config.
   - `home/modules/` contains reusable HM modules.
 
+## flakeHost usage
+
+`flakeHost` is injected into all modules via `specialArgs` in `flake.nix`.
+Use it to keep host-specific logic inside shared modules.
+
+Example (NixOS module):
+
+```nix
+{ lib, flakeHost, ... }:
+
+lib.mkIf (flakeHost == "desktop") {
+  services.openssh.enable = true;
+}
+```
+
+Example (HM override with host-specific files):
+
+```nix
+{ lib, flakeHost, ... }:
+
+let
+  desktopConfig =
+    builtins.readFile ../../home/modules/niri/config.kdl
+    + "\n\n"
+    + builtins.readFile ../../home/modules/niri/desktop-outputs.kdl;
+in
+lib.mkIf (flakeHost == "desktop") {
+  home-manager.users.ktvsky.xdg.configFile."niri/config.kdl" =
+    lib.mkForce { text = desktopConfig; };
+}
+```
+
 ## Notes
 
 - Root-level `hardware-configuration.nix` is intentionally not used; host configs live under `hosts/<host>/`.
