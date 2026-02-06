@@ -13,3 +13,4 @@
 10. minecraft have borders and header in fullscreen mode, also if use f11 ther're cursor mispositioning(mb cause of scaling)
 
 13. Rewrite power model to niri?
+14. sddm style
