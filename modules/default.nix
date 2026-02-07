@@ -39,6 +39,7 @@
     tor-browser
     ayugram-desktop
 	prismlauncher
+	sddm-astronaut
     # unstable.pkgName
   ];
 }

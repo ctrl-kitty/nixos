@@ -37,8 +37,11 @@
 
   services.displayManager.sddm = {
     enable = true;
-    theme = "sugar-candy";
-    extraPackages = [ pkgs.sddm-sugar-candy ];
+    wayland.enable = true;
+	extraPackages = with pkgs; [
+      sddm-astronaut
+     ];
+    theme = "sddm-astronaut-theme";
   };
   #  services.desktopManager.plasma6.enable = true;
 

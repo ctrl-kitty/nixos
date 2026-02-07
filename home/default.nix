@@ -1,7 +1,10 @@
-{ inputs, ... }:
+{ inputs, flakeHost, ... }:
 
 {
   home-manager = {
+    extraSpecialArgs = {
+      inherit flakeHost;
+    };
     users.ktvsky = {
 	  imports = [
 	    ./modules/default.nix
