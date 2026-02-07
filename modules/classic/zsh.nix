@@ -2,20 +2,20 @@
 
 {
   imports = [
-	./starship.nix
-	./git.nix
+    ./starship.nix
+    ./git.nix
   ];
   environment.systemPackages = with pkgs; [
-    eza           # Modern ls replacement
-    ripgrep       # Fast grep alternative
-    fd            # Fast find alternative
-    zoxide        # Smart cd command
-    dust          # Modern du
-    duf           # Modern df
-    procs         # Modern ps
-    bottom        # Modern top/htop
-    direnv        # load .env from curr dir into shell
-    yazi          # terminal file manager
+    eza # Modern ls replacement
+    ripgrep # Fast grep alternative
+    fd # Fast find alternative
+    zoxide # Smart cd command
+    dust # Modern du
+    duf # Modern df
+    procs # Modern ps
+    bottom # Modern top/htop
+    direnv # load .env from curr dir into shell
+    yazi # terminal file manager
   ];
 
   programs.zsh = {
@@ -38,17 +38,17 @@
       ll = "eza -l --icons --group-directories-first";
       la = "eza -la --icons --group-directories-first";
       lt = "eza --tree --level=2 --icons";
-      
+
       # System management
       update = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#${flakeHost}";
       clean = "sudo nix-collect-garbage -d && nix store optimise";
       rebuild = "sudo nixos-rebuild build --flake ~/.dotfiles/nixos#${flakeHost}";
       upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#${flakeHost} --update-input nixpkgs-unstable";
       repl = "nixos-rebuild repl --flake ~/.dotfiles/nixos#${flakeHost}";
-	  ptun = "sudo tun2proxy-bin --proxy http://127.0.0.1:2080 --tun ptun";
+      ptun = "sudo tun2proxy-bin --proxy http://127.0.0.1:2080 --tun ptun";
 
       opencode = "export HTTPS_PROXY=http://127.0.0.1:2080 && steam-run opencode"; # opencode not statically linked yet
-      
+
       find = "fd";
       du = "dust";
       df = "duf";
@@ -57,32 +57,32 @@
     histSize = 50000;
     histFile = "$HOME/.zsh_history";
     interactiveShellInit = ''
-	  bindkey -e
-      export KEYTIMEOUT=1
-	  eval "$(${pkgs.zoxide}/bin/zoxide init zsh --cmd cd)"
-	  # ctrl + left/right
-      bindkey "^[[1;5D" backward-word
-	  bindkey "^[[1;5C" forward-word
-	  # delete
-      bindkey "^[[3~"   delete-char
-	  # ctrl + backspace
-      bindkey "^H"      backward-kill-word
-	  # ctrl + delete
-      bindkey "^[[3;5~" delete-word
+      	  bindkey -e
+            export KEYTIMEOUT=1
+      	  eval "$(${pkgs.zoxide}/bin/zoxide init zsh --cmd cd)"
+      	  # ctrl + left/right
+            bindkey "^[[1;5D" backward-word
+      	  bindkey "^[[1;5C" forward-word
+      	  # delete
+            bindkey "^[[3~"   delete-char
+      	  # ctrl + backspace
+            bindkey "^H"      backward-kill-word
+      	  # ctrl + delete
+            bindkey "^[[3;5~" delete-word
     '';
   };
 
   programs.fzf = {
-	keybindings = true;
-	fuzzyCompletion = true;
+    keybindings = true;
+    fuzzyCompletion = true;
   };
 
   users = {
-	defaultUserShell = pkgs.zsh;
-	extraUsers = {
-	  ktvsky.shell = pkgs.zsh;
-	  root.shell = pkgs.zsh;
-	};
+    defaultUserShell = pkgs.zsh;
+    extraUsers = {
+      ktvsky.shell = pkgs.zsh;
+      root.shell = pkgs.zsh;
+    };
   };
 
 }

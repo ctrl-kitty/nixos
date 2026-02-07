@@ -5,6 +5,27 @@
   programs.nixvim = {
     enable = true;
     plugins = {
+      bufferline = {
+        enable = true;
+        autoLoad = true;
+        settings = {
+          options = {
+            mode = "buffers";
+            diagnostics = "nvim_lsp";
+            show_buffer_close_icons = true;
+            show_close_icon = false;
+            separator_style = "slant";
+            offsets = [
+              {
+                filetype = "neo-tree";
+                text = "Files";
+                highlight = "Directory";
+                separator = true;
+              }
+            ];
+          };
+        };
+      };
       lualine.enable = true;
       neo-tree.enable = true;
       lspconfig.enable = true;
@@ -38,6 +59,23 @@
         enable = true;
         extensions = {
           fzf-native.enable = true;
+        };
+      };
+      which-key = {
+        enable = true;
+        autoLoad = true;
+        settings = {
+          preset = "modern";
+          spec = [
+            {
+              __unkeyed-1 = "<leader>b";
+              group = "Buffers";
+            }
+            {
+              __unkeyed-1 = "<leader>f";
+              group = "Format";
+            }
+          ];
         };
       };
     };
@@ -81,6 +119,9 @@
       highlight_yank = {
         clear = true;
       };
+      quit_when_only_neotree = {
+        clear = true;
+      };
     };
     autoCmd = [
       {
@@ -89,6 +130,29 @@
         callback.__raw = ''
           function()
             vim.highlight.on_yank({ timeout = 200 })
+          end
+        '';
+      }
+      {
+        event = [ "BufEnter" ];
+        group = "quit_when_only_neotree";
+        callback.__raw = ''
+          function()
+            local normal_wins = {}
+            for _, win in ipairs(vim.api.nvim_list_wins()) do
+              if vim.api.nvim_win_get_config(win).relative == "" then
+                table.insert(normal_wins, win)
+              end
+            end
+
+            if #normal_wins ~= 1 then
+              return
+            end
+
+            local buf = vim.api.nvim_win_get_buf(normal_wins[1])
+            if vim.bo[buf].filetype == "neo-tree" then
+              vim.cmd("quit")
+            end
           end
         '';
       }
@@ -101,6 +165,37 @@
         action = "<cmd>Neotree toggle<CR>";
         options = {
           desc = "Toggle Neo-tree";
+          silent = true;
+        };
+      }
+
+      # Bufferline next/prev
+      {
+        mode = "n";
+        key = "<S-l>";
+        action = "<cmd>BufferLineCycleNext<CR>";
+        options = {
+          desc = "Next buffer";
+          silent = true;
+        };
+      }
+      {
+        mode = "n";
+        key = "<S-h>";
+        action = "<cmd>BufferLineCyclePrev<CR>";
+        options = {
+          desc = "Prev buffer";
+          silent = true;
+        };
+      }
+
+      # Delete buffer
+      {
+        mode = "n";
+        key = "<leader>bd";
+        action = "<cmd>bdelete<CR>";
+        options = {
+          desc = "Delete buffer";
           silent = true;
         };
       }
@@ -120,9 +215,14 @@
       {
         mode = "n";
         key = "<leader>fo";
-        action.__raw = "vim.lsp.buf.format";
+        action.__raw = ''
+          function()
+            vim.lsp.buf.format({ async = true })
+          end
+        '';
         options = {
           desc = "LSP format";
+          silent = true;
         };
       }
 
