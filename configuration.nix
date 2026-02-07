@@ -13,7 +13,8 @@
   # -5.8s boot time
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.networkmanager.enable = true;
-
+  networking.proxy.httpsProxy = "http://127.0.0.1:2080";
+  
   programs.nh.enable = true;
   programs.nh.flake = "/home/ktvsky/.dotfiles/nixos/";
 
@@ -32,8 +33,6 @@
     LC_TELEPHONE = "ru_RU.UTF-8";
     LC_TIME = "ru_RU.UTF-8";
   };
-
-  services.xserver.enable = true;
 
   services.displayManager.sddm = {
     enable = true;

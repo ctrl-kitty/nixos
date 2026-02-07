@@ -11,6 +11,7 @@
 	  link-previews = true;
 	  selection-clear-on-copy = false;
 	  minimum-contrast = 1.1;
+	  window-decoration = "none";
 	};
   };
 }
