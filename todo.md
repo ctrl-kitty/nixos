@@ -1,6 +1,5 @@
 # Niri todo
 1. Make gaps smaller
-2. Change accent color from blue
 3. Create custom workspaces: 
 - basic
 - browser + vpn
@@ -13,4 +12,4 @@
 10. minecraft have borders and header in fullscreen mode, also if use f11 ther're cursor mispositioning(mb cause of scaling)
 
 13. Rewrite power model to niri?
-14. sddm style
+14. mpv doesn't respect display size 
