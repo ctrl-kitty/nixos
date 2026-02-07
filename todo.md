@@ -13,3 +13,4 @@
 
 13. Rewrite power model to niri?
 14. mpv doesn't respect display size 
+15. brightness hotkeys doesn't work

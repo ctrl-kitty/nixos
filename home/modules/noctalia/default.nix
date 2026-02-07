@@ -1,4 +1,5 @@
 { ... }:
+# nix shell nixpkgs#jq nixpkgs#colordiff -c bash -c "colordiff -u --nobanner <(jq -S . ~/.config/noctalia/settings.json) <(noctalia-shell ipc call state all | jq -S .settings)"
 {
   programs.noctalia-shell = {
     enable = true;
@@ -78,7 +79,7 @@
               enableScrollWheel = true;
               focusedColor = "primary";
               followFocusedScreen = false;
-                groupedBorderOpacity = 1.0;
+              groupedBorderOpacity = 1.0;
               hideUnoccupied = false;
               iconScale = 0.8;
               id = "Workspace";
@@ -89,7 +90,7 @@
               showApplications = false;
               showBadge = true;
               showLabelsOnlyWhenOccupied = true;
-                unfocusedIconsOpacity = 1.0;
+              unfocusedIconsOpacity = 1.0;
             }
             {
               compactMode = false;
@@ -136,6 +137,20 @@
               displayMode = "onhover";
               id = "Microphone";
               middleClickCommand = "pwvucontrol || pavucontrol";
+            }
+            {
+              deviceNativePath = "__default__";
+              displayMode = "graphic";
+              hideIfIdle = true;
+              hideIfNotDetected = true;
+              id = "Battery";
+              showNoctaliaPerformance = false;
+              showPowerProfiles = false;
+            }
+            {
+              displayMode = "forceOpen";
+              id = "KeyboardLayout";
+              showIcon = true;
             }
             {
               clockColor = "none";
@@ -387,7 +402,11 @@
         autoHideMs = 2000;
         backgroundOpacity = 1.0;
         enabled = true;
-        enabledTypes = [ 0 1 2 ];
+        enabledTypes = [
+          0
+          1
+          2
+        ];
         location = "top_right";
         monitors = [ ];
         overlayLayer = true;
