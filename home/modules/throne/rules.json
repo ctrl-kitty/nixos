@@ -66,7 +66,10 @@
                 "npmjs.org",
                 "github.com",
                 "models.dev",
-                "ttvnw.net"
+                "ttvnw.net",
+				"opencve.io",
+				"cvedetails.com",
+				"cve.org"
             ],
             "invert": false,
             "ip_is_private": false,
