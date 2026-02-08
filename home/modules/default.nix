@@ -8,5 +8,6 @@
 	./nixcord/default.nix
 	./niri/default.nix
 	./noctalia/default.nix
+	./throne/default.nix
   ];
 }
