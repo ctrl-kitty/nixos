@@ -13,6 +13,7 @@
 	./graphic/niri.nix
     ./security/firejail.nix
     ./security/web-pentest.nix
+	./gaming/steam.nix
   ];
   programs.throne = {
     package = pkgs.unstable.throne;
