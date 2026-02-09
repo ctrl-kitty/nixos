@@ -70,7 +70,8 @@
 				"opencve.io",
 				"cvedetails.com",
 				"cve.org",
-				"noctalia.dev"
+				"noctalia.dev",
+				"danklinux.com"
             ],
             "invert": false,
             "ip_is_private": false,

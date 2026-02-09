@@ -9,7 +9,7 @@
     ./emulation/wine.nix
     #	./graphic/plymouth.nix
     ./graphic/stylix.nix
-    ./graphic/hyprland.nix
+#    ./graphic/hyprland.nix
 	./graphic/niri.nix
     ./security/firejail.nix
     ./security/web-pentest.nix
