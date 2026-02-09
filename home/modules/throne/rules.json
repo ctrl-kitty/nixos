@@ -71,7 +71,8 @@
 				"cvedetails.com",
 				"cve.org",
 				"noctalia.dev",
-				"danklinux.com"
+				"danklinux.com",
+				"ajay.app"
             ],
             "invert": false,
             "ip_is_private": false,
