@@ -114,6 +114,7 @@
       lua_ls.enable = true;
       markdown_oxide.enable = true;
       docker_language_server.enable = true;
+      jsonls.enable = true;
     };
     autoGroups = {
       highlight_yank = {
