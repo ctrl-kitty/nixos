@@ -1,5 +1,5 @@
 {
-    "current_route_id": 999,
+    "current_route_id": 123,
     "direct_dns": "localhost",
     "direct_dns_strategy": "",
     "dns_final_out": "remote",
@@ -8,7 +8,7 @@
     "outbound_domain_strategy": "",
     "remote_dns": "tls://8.8.8.8",
     "remote_dns_strategy": "",
-    "ruleset_mirror": 1,
+    "ruleset_mirror": 123,
     "sniffing_mode": 1,
     "use_dns_object": false
 }

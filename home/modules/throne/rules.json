@@ -1,6 +1,6 @@
 {
     "default_outbound": -2,
-    "id": 0,
+    "id": 123,
     "name": "Nix",
     "rules": [
         {
@@ -69,7 +69,8 @@
                 "ttvnw.net",
 				"opencve.io",
 				"cvedetails.com",
-				"cve.org"
+				"cve.org",
+				"noctalia.dev"
             ],
             "invert": false,
             "ip_is_private": false,
