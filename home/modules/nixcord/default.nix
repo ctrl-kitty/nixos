@@ -12,7 +12,7 @@
     # equibop.enable = true;
 	# vencord.enable = false;
 	# equicord.enable = true;
-	# vesktop.enable = true;
+	vesktop.enable = true;
     config = {
       frameless = true;
     };
