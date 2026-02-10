@@ -8,5 +8,8 @@ let
     else baseConfig;
 in
 {
+  imports = [
+	./swaylock.nix
+  ];
   xdg.configFile."niri/config.kdl".text = finalConfig;
 }
