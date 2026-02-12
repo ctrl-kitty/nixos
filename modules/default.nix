@@ -9,11 +9,11 @@
     ./emulation/wine.nix
     #	./graphic/plymouth.nix
     ./graphic/stylix.nix
-#    ./graphic/hyprland.nix
-	./graphic/niri.nix
+    #    ./graphic/hyprland.nix
+    ./graphic/niri.nix
     ./security/firejail.nix
     ./security/web-pentest.nix
-	./gaming/steam.nix
+    ./gaming/steam.nix
   ];
   programs.throne = {
     package = pkgs.unstable.throne;
@@ -39,12 +39,13 @@
     mpv
     tor-browser
     ayugram-desktop
-	prismlauncher
-	sddm-astronaut
-	kdePackages.ark
-	unrar
-	kdePackages.dolphin
-	# music player
+    prismlauncher
+    sddm-astronaut
+    kdePackages.ark
+    unrar
+    p7zip
+    kdePackages.dolphin
+    # music player
     kdePackages.elisa
     # unstable.pkgName
   ];
