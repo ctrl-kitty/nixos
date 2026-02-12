@@ -42,6 +42,7 @@
 	prismlauncher
 	sddm-astronaut
 	kdePackages.ark
+	unrar
 	kdePackages.dolphin
 	# music player
     kdePackages.elisa

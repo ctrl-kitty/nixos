@@ -14,7 +14,6 @@
 		mako
 		polkit_gnome
 		kdePackages.ark
-		unrar
 		kdePackages.dolphin
 	];
 }
