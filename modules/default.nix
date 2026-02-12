@@ -41,6 +41,8 @@
     ayugram-desktop
 	prismlauncher
 	sddm-astronaut
+	kdePackages.ark
+	kdePackages.dolphin
 	# music player
     kdePackages.elisa
     # unstable.pkgName

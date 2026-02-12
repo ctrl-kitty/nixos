@@ -75,6 +75,7 @@
       "adbusers"
       "kvm"
       "docker"
+	  "gamemode"
     ];
   };
   # https://github.com/nix-community/stylix/issues/267#issuecomment-2314636091

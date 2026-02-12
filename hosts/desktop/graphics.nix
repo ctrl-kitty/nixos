@@ -2,7 +2,6 @@
 {
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.amdgpu.opencl.enable = true;
-
   hardware.graphics.extraPackages = with pkgs; [
     libva
     libva-utils
