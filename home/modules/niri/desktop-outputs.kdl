@@ -9,3 +9,7 @@ output "HDMI-A-1" {
     scale 1
     position x=0 y=0
 }
+
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
