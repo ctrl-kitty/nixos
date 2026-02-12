@@ -4,5 +4,4 @@
     xwayland-satellite
   ];
   programs.niri.enable = true;
-
 }

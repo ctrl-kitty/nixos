@@ -16,4 +16,11 @@ in
     ./swaylock.nix
   ];
   xdg.configFile."niri/config.kdl".text = finalConfig;
+
+  home.sessionVariables = {
+    TERMINAL = "ghostty";
+    NIXOS_OZONE_WL = "1";
+  };
+
+  programs.fuzzel.enable = true;
 }
