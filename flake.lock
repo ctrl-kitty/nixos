@@ -6,11 +6,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1771015653,
-        "narHash": "sha256-j7kv9Amtpn/rSaCIldo1ytze2lrQi+cSEr6w6U7HO/I=",
+        "lastModified": 1771023101,
+        "narHash": "sha256-+DTYJ0+pECSSJx1TXQw+s10QsN2qgC+gess5EGS1Px8=",
         "owner": "ctrl-kitty",
         "repo": "anirust",
-        "rev": "c1ec145fc71459007fdaf1adddb6864860ee1554",
+        "rev": "77a683df635950e2ad47658d0811c54cf8da471a",
         "type": "github"
       },
       "original": {
