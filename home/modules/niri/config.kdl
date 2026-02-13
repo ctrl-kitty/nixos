@@ -57,9 +57,7 @@ window-rule {
 }
 
 // Debug
-debug {
-    honor-xdg-activation-with-invalid-serial
-}
+
 
 // Binds
 binds {
