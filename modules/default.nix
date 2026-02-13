@@ -30,6 +30,7 @@
     #    telegram-desktop
     psmisc
     opencode # 4 gb trash??
+    anirust
     libreoffice-qt6-fresh # 1.5 gb
     git
     wget
@@ -48,5 +49,6 @@
     # music player
     kdePackages.elisa
     # unstable.pkgName
+	rustup
   ];
 }

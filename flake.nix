@@ -5,6 +5,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
     opencode.url = "github:anomalyco/opencode?ref=v1.1.48";
+    anirust.url = "github:ctrl-kitty/anirust";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,6 +36,7 @@
       nixpkgs,
       nixpkgs-unstable,
       opencode,
+      anirust,
       home-manager,
       nixvim,
       stylix,
@@ -53,6 +55,7 @@
             };
             burpsuitepro = burpsuitepro.packages.${final.stdenv.hostPlatform.system}.default;
             opencode = opencode.packages.${final.stdenv.hostPlatform.system}.default;
+            anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
             ayugram-desktop = final.symlinkJoin {
               name = "ayugram-desktop-wayland";
               paths = [ prev.ayugram-desktop ];
