@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ options, pkgs, ... }:
 
 {
   imports = [
@@ -22,7 +22,22 @@
     tunMode.setuid = true;
   };
   # for uv
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries =
+      options.programs.nix-ld.libraries.default
+      ++ (with pkgs; [
+        glib # libglib-2.0.so.0
+        libGL
+        stdenv.cc.cc.lib
+        libxkbcommon
+		fontconfig
+		xorg.libX11
+		freetype
+		dbus
+		wayland
+      ]);
+  };
   environment.systemPackages = with pkgs; [
     nodejs_24
     tree
@@ -49,6 +64,6 @@
     # music player
     kdePackages.elisa
     # unstable.pkgName
-	rustup
+    rustup
   ];
 }
