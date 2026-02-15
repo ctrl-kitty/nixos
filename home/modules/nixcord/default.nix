@@ -8,7 +8,6 @@
     # vencord.enable = false;
     # equicord.enable = true;
     vesktop.enable = true;
-
     config = {
       frameless = true;
 

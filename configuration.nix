@@ -15,7 +15,7 @@
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.networkmanager.enable = true;
   networking.proxy.httpsProxy = "http://127.0.0.1:2080";
-  
+
   programs.nh.enable = true;
   programs.nh.flake = "/home/ktvsky/.dotfiles/nixos/";
 
@@ -38,10 +38,10 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-	extraPackages = with pkgs; [
-      sddm-astronaut
-     ];
     theme = "sddm-astronaut-theme";
+    extraPackages = with pkgs; [
+      sddm-astronaut
+    ];
   };
   #  services.desktopManager.plasma6.enable = true;
 
@@ -75,7 +75,7 @@
       "adbusers"
       "kvm"
       "docker"
-	  "gamemode"
+      "gamemode"
     ];
   };
   # https://github.com/nix-community/stylix/issues/267#issuecomment-2314636091

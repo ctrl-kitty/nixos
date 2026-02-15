@@ -31,14 +31,15 @@
         libGL
         stdenv.cc.cc.lib
         libxkbcommon
-		fontconfig
-		xorg.libX11
-		freetype
-		dbus
-		wayland
+        fontconfig
+        xorg.libX11
+        freetype
+        dbus
+        wayland
       ]);
   };
   environment.systemPackages = with pkgs; [
+    gajim
     nodejs_24
     tree
     tun2proxy
@@ -56,13 +57,16 @@
     tor-browser
     ayugram-desktop
     prismlauncher
-    sddm-astronaut
     kdePackages.ark
     unrar
     p7zip
+    sddm-astronaut
+
     kdePackages.dolphin
     # music player
     kdePackages.elisa
+    # paint for me
+    pinta
     # unstable.pkgName
     rustup
   ];
