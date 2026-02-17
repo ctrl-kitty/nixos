@@ -1,5 +1,6 @@
 { ... }:
 {
+  # rewrite to 
   xdg.configFile."Throne/config/route_profiles/123.json" = {
     source = ./rules.json;
     force = true;

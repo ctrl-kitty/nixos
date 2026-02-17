@@ -76,8 +76,9 @@
 				"asciigen.art",
 				"docker.com",
 				"semgrep.dev",
-				"itch.io"
-				,"aniliberty.top"
+				"itch.io",
+				"aniliberty.top",
+				"nix.dev"
 			],
 			"invert": false,
 			"ip_is_private": false,

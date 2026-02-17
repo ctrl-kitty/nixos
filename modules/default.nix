@@ -24,19 +24,19 @@
   # for uv
   programs.nix-ld = {
     enable = true;
-    libraries =
-      options.programs.nix-ld.libraries.default
-      ++ (with pkgs; [
-        glib # libglib-2.0.so.0
-        libGL
-        stdenv.cc.cc.lib
-        libxkbcommon
-        fontconfig
-        xorg.libX11
-        freetype
-        dbus
-        wayland
-      ]);
+#    libraries =
+#      options.programs.nix-ld.libraries.default
+#      ++ (with pkgs; [
+#        glib # libglib-2.0.so.0
+#        libGL
+#        stdenv.cc.cc.lib
+#        libxkbcommon
+#        fontconfig
+#        xorg.libX11
+#        freetype
+#        dbus
+#        wayland
+#      ]);
   };
   environment.systemPackages = with pkgs; [
     gajim
