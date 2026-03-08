@@ -35,7 +35,8 @@ layout {
 }
 
 // Startup
-spawn-at-startup "noctalia-shell"
+// handled by systemd 
+//spawn-at-startup "noctalia-shell"
 
 // Paths
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"

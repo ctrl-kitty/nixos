@@ -1,8 +1,55 @@
-{ ... }:
+{ lib, pkgs, ... }:
 # nix shell nixpkgs#jq nixpkgs#colordiff -c bash -c "colordiff -u --nobanner <(jq -S . ~/.config/noctalia/settings.json) <(noctalia-shell ipc call state all | jq -S .settings)"
+let
+  trayReady = pkgs.writeShellScript "tray-ready" ''
+    set -euo pipefail
+    for i in $(seq 1 2000); do
+      if ${pkgs.systemd}/bin/busctl --user call org.freedesktop.DBus \
+        /org/freedesktop/DBus org.freedesktop.DBus NameHasOwner \
+        s org.kde.StatusNotifierWatcher | ${pkgs.gnugrep}/bin/grep -q "b true"
+      then
+        exit 0
+      fi
+      sleep 0.05
+    done
+    exit 1
+  '';
+  gatedAutostarts = [
+    "app-throne@autostart"
+    "app-vesktop@autostart"
+  ];
+in
 {
+  # autostart entries should be launched after noctalia, to prevent not showing in tray
+  systemd.user.services = {
+    tray-ready = {
+      Unit = {
+        Description = "Wait until StatusNotifierWatcher is on the bus";
+        After = [ "noctalia-shell.service" ];
+        Requires = [ "noctalia-shell.service" ];
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = trayReady;
+      };
+    };
+    "app-throne@autostart" = {
+      Unit = {
+        After = [
+          "tray-ready.service"
+          "noctalia-shell.service"
+        ];
+        Wants = [
+          "tray-ready.service"
+          "noctalia-shell.service"
+        ];
+      };
+    };
+  };
+
   programs.noctalia-shell = {
     enable = true;
+    systemd.enable = true;
     settings = {
       appLauncher = {
         autoPasteClipboard = false;

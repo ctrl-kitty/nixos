@@ -68,7 +68,7 @@
                 # Disable D-Bus activation so wrapper is actually used
                 rm $out/share/applications/com.ayugram.desktop.desktop
                 substitute ${prev.ayugram-desktop}/share/applications/com.ayugram.desktop.desktop \
-                  $out/share/applications/com.ayugram.destop.desktop \
+                  $out/share/applications/com.ayugram.desktop.desktop \
                   --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
               '';
             };

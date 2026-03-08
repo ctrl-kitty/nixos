@@ -12,5 +12,6 @@
 	# https://discourse.nixos.org/t/dolphin-does-not-have-mime-associations/48985/12 
 	# piece of plasma
 	./xdg/mimeapps.nix
+	./xdg/autostart.nix
   ];
 }
