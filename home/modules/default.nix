@@ -13,5 +13,6 @@
 	# piece of plasma
 	./xdg/mimeapps.nix
 	./xdg/autostart.nix
+	./vscode/default.nix
   ];
 }

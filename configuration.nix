@@ -70,6 +70,7 @@
     isNormalUser = true;
     description = "ktvsky";
     extraGroups = [
+      "input"
       "networkmanager"
       "wheel"
       "adbusers"

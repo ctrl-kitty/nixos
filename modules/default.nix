@@ -7,6 +7,7 @@
     ./classic/gc.nix
     ./emulation/docker.nix
     ./emulation/wine.nix
+	./emulation/android.nix
     #	./graphic/plymouth.nix
     ./graphic/stylix.nix
     #    ./graphic/hyprland.nix
@@ -15,8 +16,9 @@
     ./security/web-pentest.nix
     ./gaming/steam.nix
   ];
+  programs.androidVm.enable = true;
   programs.throne = {
-    package = pkgs.unstable.throne;
+#    package = pkgs.unstable.throne;
     enable = true;
     tunMode.enable = true;
     tunMode.setuid = true;
@@ -39,11 +41,11 @@
 #      ]);
   };
   environment.systemPackages = with pkgs; [
+    ghidra
     gajim
     nodejs_24
     tree
     tun2proxy
-    #    telegram-desktop
     psmisc
     opencode # 4 gb trash??
     anirust

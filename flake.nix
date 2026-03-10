@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
-    opencode.url = "github:anomalyco/opencode?ref=v1.1.48";
+    opencode.url = "github:anomalyco/opencode?ref=v1.2.24";
     anirust.url = "github:ctrl-kitty/anirust";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";

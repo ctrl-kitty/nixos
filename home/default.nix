@@ -2,6 +2,7 @@
 
 {
   home-manager = {
+  backupFileExtension = "hmbackup";
     extraSpecialArgs = {
       inherit flakeHost;
     };
@@ -11,6 +12,7 @@
 		inputs.nixcord.homeModules.nixcord
 	    inputs.noctalia.homeModules.default
 	  ];
+
 	  programs.home-manager.enable = true;
 	  home.stateVersion = "25.11";
     };

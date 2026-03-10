@@ -1,0 +1,6 @@
+{
+  "editor.minimap.scale": 2,
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true
+}
