@@ -22,9 +22,14 @@
       ln -sf "$dotfilesDir/keybindings.json" "$vscodeDir/keybindings.json"
     '';
   };
+  home.packages = with pkgs; [
+    nixfmt
+    nixd
+    dotnetCorePackages.dotnet_8.sdk
+  ];
   programs.vscode = {
     enable = true;
-    # package = pkgs.vscode.fhs;
+    package = pkgs.vscode.fhs;
     profiles.default = {
       enableUpdateCheck = false;
       extensions = with pkgs.vscode-extensions; [

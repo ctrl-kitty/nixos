@@ -30,6 +30,10 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    aagl = {
+      url = "github:ezKEa/aagl-gtk-on-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     {
@@ -42,6 +46,7 @@
       stylix,
       burpsuitepro,
       nixcord,
+	  aagl,
       ...
     }@inputs:
     let
@@ -89,6 +94,7 @@
             nixvim.nixosModules.nixvim
             home-manager.nixosModules.default
             stylix.nixosModules.stylix
+			aagl.nixosModules.default
           ];
         };
     in

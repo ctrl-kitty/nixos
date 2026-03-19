@@ -15,7 +15,6 @@
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.networkmanager.enable = true;
   networking.proxy.httpsProxy = "http://127.0.0.1:2080";
-
   programs.nh.enable = true;
   programs.nh.flake = "/home/ktvsky/.dotfiles/nixos/";
 
@@ -79,10 +78,7 @@
       "gamemode"
     ];
   };
-  # https://github.com/nix-community/stylix/issues/267#issuecomment-2314636091
-  # environment.plasma6.excludePackages = with pkgs.kdePackages; [
-  #    kde-gtk-config
-  #  ];
+
   programs.firefox.enable = true;
   system.stateVersion = "25.11"; # Did you read the comment?
 

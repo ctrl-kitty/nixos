@@ -2,5 +2,27 @@
   "editor.minimap.scale": 2,
   "files.autoSave": "onFocusChange",
   "editor.formatOnPaste": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "nix.enableLanguageServer": true, // Enable LSP.
+  "nix.serverPath": "nixd", // The path to the LSP server executable.
+  // check https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md for all nixd config
+  "nix.serverSettings": {
+    "nixd": {
+      "nixpkgs": {
+        "expr": "(builtins.getFlake (''git+file://'' + toString ./. + ''''))"
+      },
+      "options": {
+        "nixos": {
+          "expr": "(builtins.getFlake (''git+file://'' + toString ./. + '''')).nixosConfigurations.desktop.options"
+        },
+        "home-manager": {
+          "expr": "(builtins.getFlake (''git+file://'' + toString ./. + '''')).nixosConfigurations.desktop.options.home-manager.users.type.getSubOptions []"
+        }
+      }
+    }
+  },
+  "nix.hiddenLanguageServerErrors": [
+    "textDocument/definition",
+    "textDocument/formatting"
+  ]
 }

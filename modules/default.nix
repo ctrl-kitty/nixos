@@ -15,6 +15,7 @@
     ./security/firejail.nix
     ./security/web-pentest.nix
     ./gaming/steam.nix
+	./gaming/genshin.nix
   ];
   programs.androidVm.enable = true;
   programs.throne = {
