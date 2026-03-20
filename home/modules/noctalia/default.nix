@@ -89,13 +89,14 @@ in
         autoHideDelay = 500;
         autoShowDelay = 150;
         backgroundOpacity = 1.0;
-        barType = "simple";
+        barType = "framed";
         capsuleOpacity = 1.0;
         density = "compact";
         displayMode = "always_visible";
         floating = false;
-        frameRadius = 12;
-        frameThickness = 8;
+        frameRadius = 24;
+        frameThickness = 6;
+        rightClickAction = "controlCenter";
         hideOnOverview = false;
         marginHorizontal = 4;
         marginVertical = 4;
@@ -103,7 +104,8 @@ in
         outerCorners = true;
         position = "top";
         screenOverrides = [ ];
-        showCapsule = false;
+        showCapsule = true;
+        showOnWorkspaceSwitch = true;
         showOutline = false;
         useSeparateOpacity = false;
         widgets = {
@@ -128,7 +130,7 @@ in
               followFocusedScreen = false;
               groupedBorderOpacity = 1.0;
               hideUnoccupied = false;
-              iconScale = 0.8;
+              iconScale = 0.7;
               id = "Workspace";
               labelMode = "none";
               occupiedColor = "secondary";
@@ -156,6 +158,17 @@ in
               showVisualizer = false;
               useFixedWidth = false;
               visualizerType = "linear";
+            }
+            {
+              colorizeIcons = false;
+              hideMode = "hidden";
+              iconScale = 0.7;
+              id = "Taskbar";
+              maxTaskbarWidth = 50;
+              onlyActiveWokspaces = false;
+              onlySameOutput = false;
+              showPinnedApps = true;
+              showTitle = false;
             }
           ];
           right = [
@@ -324,6 +337,7 @@ in
         animationSpeed = 1.0;
         backgroundOpacity = 1.0;
         colorizeIcons = false;
+        dockType = "floating";
         deadOpacity = 0.6;
         displayMode = "auto_hide";
         enabled = false;
@@ -356,7 +370,7 @@ in
         language = "";
         lockOnSuspend = true;
         lockScreenCountdownDuration = 10000;
-        radiusRatio = 0.2;
+        radiusRatio = 1.5;
         scaleRatio = 1.0;
         screenRadiusRatio = 1.0;
         shadowDirection = "bottom_right";

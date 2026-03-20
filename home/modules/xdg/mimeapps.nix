@@ -1,17 +1,23 @@
-
-
-{ config, osConfig, pkgs, lib, ... }:
+{
+  config,
+  osConfig,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   nvimPkg =
-    if (osConfig.programs.nixvim.package or null) != null then osConfig.programs.nixvim.package
-    else if (osConfig.programs.nixvim.finalPackage or null) != null then osConfig.programs.nixvim.finalPackage
-    else pkgs.neovim;
+    if (osConfig.programs.nixvim.package or null) != null then
+      osConfig.programs.nixvim.package
+    else if (osConfig.programs.nixvim.finalPackage or null) != null then
+      osConfig.programs.nixvim.finalPackage
+    else
+      pkgs.neovim;
 
   nvimExe = lib.getExe nvimPkg;
 
-  terminalCmd = config.home.sessionVariables.TERMINAL
-  or (lib.getExe pkgs.ghostty);
+  terminalCmd = config.home.sessionVariables.TERMINAL or (lib.getExe pkgs.ghostty);
 in
 {
   xdg.mimeApps.enable = true;
@@ -21,7 +27,10 @@ in
       name = "Neovim";
       genericName = "Text Editor";
       icon = "nvim";
-      categories = [ "Utility" "TextEditor" ];
+      categories = [
+        "Utility"
+        "TextEditor"
+      ];
       terminal = false;
 
       exec = "${lib.escapeShellArg terminalCmd} -e ${lib.escapeShellArg nvimExe}";

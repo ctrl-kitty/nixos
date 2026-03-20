@@ -1,5 +1,9 @@
-
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   blissOsIso = pkgs.fetchurl {
@@ -49,7 +53,10 @@ in
     environment.systemPackages = [ androidVm ];
 
     # KVM access for the current user
-    users.groups.kvm = {};
-    boot.kernelModules = [ "kvm-intel" "kvm-amd" ];
+    users.groups.kvm = { };
+    boot.kernelModules = [
+      "kvm-intel"
+      "kvm-amd"
+    ];
   };
 }

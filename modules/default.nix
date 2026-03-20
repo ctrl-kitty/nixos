@@ -1,4 +1,4 @@
-{ options, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -7,7 +7,7 @@
     ./classic/gc.nix
     ./emulation/docker.nix
     ./emulation/wine.nix
-	./emulation/android.nix
+    ./emulation/android.nix
     #	./graphic/plymouth.nix
     ./graphic/stylix.nix
     #    ./graphic/hyprland.nix
@@ -15,11 +15,11 @@
     ./security/firejail.nix
     ./security/web-pentest.nix
     ./gaming/steam.nix
-	./gaming/genshin.nix
+    ./gaming/genshin.nix
   ];
   programs.androidVm.enable = true;
   programs.throne = {
-#    package = pkgs.unstable.throne;
+    #    package = pkgs.unstable.throne;
     enable = true;
     tunMode.enable = true;
     tunMode.setuid = true;
@@ -27,22 +27,23 @@
   # for uv
   programs.nix-ld = {
     enable = true;
-#    libraries =
-#      options.programs.nix-ld.libraries.default
-#      ++ (with pkgs; [
-#        glib # libglib-2.0.so.0
-#        libGL
-#        stdenv.cc.cc.lib
-#        libxkbcommon
-#        fontconfig
-#        xorg.libX11
-#        freetype
-#        dbus
-#        wayland
-#      ]);
+    #    libraries =
+    #      options.programs.nix-ld.libraries.default
+    #      ++ (with pkgs; [
+    #        glib # libglib-2.0.so.0
+    #        libGL
+    #        stdenv.cc.cc.lib
+    #        libxkbcommon
+    #        fontconfig
+    #        xorg.libX11
+    #        freetype
+    #        dbus
+    #        wayland
+    #      ]);
   };
   environment.systemPackages = with pkgs; [
-    ghidra
+    wl-clicker
+    (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
     nodejs_24
     tree

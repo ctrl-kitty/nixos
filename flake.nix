@@ -46,7 +46,7 @@
       stylix,
       burpsuitepro,
       nixcord,
-	  aagl,
+      aagl,
       ...
     }@inputs:
     let
@@ -94,7 +94,7 @@
             nixvim.nixosModules.nixvim
             home-manager.nixosModules.default
             stylix.nixosModules.stylix
-			aagl.nixosModules.default
+            aagl.nixosModules.default
           ];
         };
     in

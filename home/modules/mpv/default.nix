@@ -1,7 +1,7 @@
 { ... }:
 {
-	imports = [
-		./bindings.nix
-		./config.nix
-	];
+  imports = [
+    ./bindings.nix
+    ./config.nix
+  ];
 }

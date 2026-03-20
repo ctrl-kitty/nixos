@@ -327,124 +327,134 @@ let
     '';
   };
 
-   plasma-wayland-igpu = pkgs.writeShellApplication {
-     name = "plasma-wayland-igpu";
-     runtimeInputs = with pkgs; [ coreutils gnugrep gawk util-linux ];
-     text = ''
-       set -euo pipefail
+  plasma-wayland-igpu = pkgs.writeShellApplication {
+    name = "plasma-wayland-igpu";
+    runtimeInputs = with pkgs; [
+      coreutils
+      gnugrep
+      gawk
+      util-linux
+    ];
+    text = ''
+      set -euo pipefail
 
-       pick_cards() {
-         local intel="" amd="" nvidia=""
-         local card
-         for card in /sys/class/drm/card[0-9]*; do
-           [ -e "$card/device/vendor" ] || continue
-           local name
-           name=$(basename "$card")
-           # Skip connector entries like card0-eDP-1; only accept real /dev/dri/cardN nodes.
-           [ -e "/dev/dri/$name" ] || continue
-           local v
-           v=$(head -n1 "$card/device/vendor" 2>/dev/null || true)
-           case "$v" in
-             0x8086) intel="/dev/dri/$name" ;;
-             0x1002) amd="/dev/dri/$(basename "$card")" ;;
-             0x10de) nvidia="/dev/dri/$name" ;;
-           esac
-         done
+      pick_cards() {
+        local intel="" amd="" nvidia=""
+        local card
+        for card in /sys/class/drm/card[0-9]*; do
+          [ -e "$card/device/vendor" ] || continue
+          local name
+          name=$(basename "$card")
+          # Skip connector entries like card0-eDP-1; only accept real /dev/dri/cardN nodes.
+          [ -e "/dev/dri/$name" ] || continue
+          local v
+          v=$(head -n1 "$card/device/vendor" 2>/dev/null || true)
+          case "$v" in
+            0x8086) intel="/dev/dri/$name" ;;
+            0x1002) amd="/dev/dri/$(basename "$card")" ;;
+            0x10de) nvidia="/dev/dri/$name" ;;
+          esac
+        done
 
-         local igpu=""
-         if [ -n "$intel" ]; then
-           igpu="$intel"
-         elif [ -n "$amd" ]; then
-           igpu="$amd"
-         fi
+        local igpu=""
+        if [ -n "$intel" ]; then
+          igpu="$intel"
+        elif [ -n "$amd" ]; then
+          igpu="$amd"
+        fi
 
-         if [ -n "$igpu" ] && [ -n "$nvidia" ]; then
-           export KWIN_DRM_DEVICES="$igpu:$nvidia"
-         elif [ -n "$igpu" ]; then
-           export KWIN_DRM_DEVICES="$igpu"
-         elif [ -n "$nvidia" ]; then
-           export KWIN_DRM_DEVICES="$nvidia"
-         fi
-       }
+        if [ -n "$igpu" ] && [ -n "$nvidia" ]; then
+          export KWIN_DRM_DEVICES="$igpu:$nvidia"
+        elif [ -n "$igpu" ]; then
+          export KWIN_DRM_DEVICES="$igpu"
+        elif [ -n "$nvidia" ]; then
+          export KWIN_DRM_DEVICES="$nvidia"
+        fi
+      }
 
-       pick_cards
-       exec ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland
-     '';
-   };
+      pick_cards
+      exec ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland
+    '';
+  };
 
-   plasma-wayland-dgpu = pkgs.writeShellApplication {
-     name = "plasma-wayland-dgpu";
-     runtimeInputs = with pkgs; [ coreutils gnugrep gawk util-linux ];
-     text = ''
-       set -euo pipefail
+  plasma-wayland-dgpu = pkgs.writeShellApplication {
+    name = "plasma-wayland-dgpu";
+    runtimeInputs = with pkgs; [
+      coreutils
+      gnugrep
+      gawk
+      util-linux
+    ];
+    text = ''
+      set -euo pipefail
 
-       pick_cards() {
-         local intel="" amd="" nvidia=""
-         local card
-         for card in /sys/class/drm/card[0-9]*; do
-           [ -e "$card/device/vendor" ] || continue
-           local name
-           name=$(basename "$card")
-           # Skip connector entries like card0-eDP-1; only accept real /dev/dri/cardN nodes.
-           [ -e "/dev/dri/$name" ] || continue
-           local v
-           v=$(head -n1 "$card/device/vendor" 2>/dev/null || true)
-           case "$v" in
-             0x8086) intel="/dev/dri/$name" ;;
-             0x1002) amd="/dev/dri/$(basename "$card")" ;;
-             0x10de) nvidia="/dev/dri/$name" ;;
-           esac
-         done
+      pick_cards() {
+        local intel="" amd="" nvidia=""
+        local card
+        for card in /sys/class/drm/card[0-9]*; do
+          [ -e "$card/device/vendor" ] || continue
+          local name
+          name=$(basename "$card")
+          # Skip connector entries like card0-eDP-1; only accept real /dev/dri/cardN nodes.
+          [ -e "/dev/dri/$name" ] || continue
+          local v
+          v=$(head -n1 "$card/device/vendor" 2>/dev/null || true)
+          case "$v" in
+            0x8086) intel="/dev/dri/$name" ;;
+            0x1002) amd="/dev/dri/$(basename "$card")" ;;
+            0x10de) nvidia="/dev/dri/$name" ;;
+          esac
+        done
 
-         local igpu=""
-         if [ -n "$intel" ]; then
-           igpu="$intel"
-         elif [ -n "$amd" ]; then
-           igpu="$amd"
-         fi
+        local igpu=""
+        if [ -n "$intel" ]; then
+          igpu="$intel"
+        elif [ -n "$amd" ]; then
+          igpu="$amd"
+        fi
 
-         if [ -n "$igpu" ] && [ -n "$nvidia" ]; then
-           export KWIN_DRM_DEVICES="$nvidia:$igpu"
-         elif [ -n "$nvidia" ]; then
-           export KWIN_DRM_DEVICES="$nvidia"
-         elif [ -n "$igpu" ]; then
-           export KWIN_DRM_DEVICES="$igpu"
-         fi
-       }
+        if [ -n "$igpu" ] && [ -n "$nvidia" ]; then
+          export KWIN_DRM_DEVICES="$nvidia:$igpu"
+        elif [ -n "$nvidia" ]; then
+          export KWIN_DRM_DEVICES="$nvidia"
+        elif [ -n "$igpu" ]; then
+          export KWIN_DRM_DEVICES="$igpu"
+        fi
+      }
 
-       pick_cards
-       export __GLX_VENDOR_LIBRARY_NAME=nvidia
-       exec ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland
-     '';
-   };
+      pick_cards
+      export __GLX_VENDOR_LIBRARY_NAME=nvidia
+      exec ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland
+    '';
+  };
 
-   plasma-igpu-session = pkgs.writeTextFile {
-     name = "plasma-igpu-wayland-session";
-     destination = "/share/wayland-sessions/plasma-igpu.desktop";
-     text = ''
-       [Desktop Entry]
-       Name=Plasma (iGPU)
-       Comment=Plasma Wayland using iGPU as primary
-       Exec=${plasma-wayland-igpu}/bin/plasma-wayland-igpu
-       TryExec=${plasma-wayland-igpu}/bin/plasma-wayland-igpu
-       Type=Application
-       DesktopNames=KDE
-     '';
-   };
+  plasma-igpu-session = pkgs.writeTextFile {
+    name = "plasma-igpu-wayland-session";
+    destination = "/share/wayland-sessions/plasma-igpu.desktop";
+    text = ''
+      [Desktop Entry]
+      Name=Plasma (iGPU)
+      Comment=Plasma Wayland using iGPU as primary
+      Exec=${plasma-wayland-igpu}/bin/plasma-wayland-igpu
+      TryExec=${plasma-wayland-igpu}/bin/plasma-wayland-igpu
+      Type=Application
+      DesktopNames=KDE
+    '';
+  };
 
-   plasma-dgpu-session = pkgs.writeTextFile {
-     name = "plasma-dgpu-wayland-session";
-     destination = "/share/wayland-sessions/plasma-dgpu.desktop";
-     text = ''
-       [Desktop Entry]
-       Name=Plasma (dGPU)
-       Comment=Plasma Wayland using dGPU as primary
-       Exec=${plasma-wayland-dgpu}/bin/plasma-wayland-dgpu
-       TryExec=${plasma-wayland-dgpu}/bin/plasma-wayland-dgpu
-       Type=Application
-       DesktopNames=KDE
-     '';
-   };
+  plasma-dgpu-session = pkgs.writeTextFile {
+    name = "plasma-dgpu-wayland-session";
+    destination = "/share/wayland-sessions/plasma-dgpu.desktop";
+    text = ''
+      [Desktop Entry]
+      Name=Plasma (dGPU)
+      Comment=Plasma Wayland using dGPU as primary
+      Exec=${plasma-wayland-dgpu}/bin/plasma-wayland-dgpu
+      TryExec=${plasma-wayland-dgpu}/bin/plasma-wayland-dgpu
+      Type=Application
+      DesktopNames=KDE
+    '';
+  };
 
   plasma-gpu-sessions = pkgs.symlinkJoin {
     name = "plasma-gpu-sessions";
@@ -456,7 +466,10 @@ let
       plasma-dgpu-session
     ];
     passthru = {
-      providedSessions = [ "plasma-igpu" "plasma-dgpu" ];
+      providedSessions = [
+        "plasma-igpu"
+        "plasma-dgpu"
+      ];
     };
   };
 in
@@ -482,7 +495,10 @@ in
       ExecStart = "${power-profile}/bin/power-profile auto";
     };
     wantedBy = [ "multi-user.target" ];
-    after = [ "sysinit.target" "udev.service" ];
+    after = [
+      "sysinit.target"
+      "udev.service"
+    ];
   };
 
   # Trigger profile switching on AC/BAT changes.
