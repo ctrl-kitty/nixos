@@ -66,7 +66,6 @@
     p7zip
     sddm-astronaut
 
-    kdePackages.dolphin
     # music player
     kdePackages.elisa
     # paint for me

@@ -12,12 +12,14 @@
       width = {
         fraction = 0.3;
       };
-      maxEntries = 20;
-      # buggy
+      # buggy, fixed here https://github.com/anyrun-org/anyrun/pull/240/changes/ddfe7f292ae493eeb0d2ed4a9b7e504486f6aee6
+      # just'll wait for 26.05
       # closeOnClick = true;
       plugins = [
         "${pkgs.anyrun}/lib/libapplications.so"
+        "${pkgs.anyrun}/lib/librink.so"
         "${pkgs.anyrun}/lib/libwebsearch.so"
+        # don't respect maxEntries
         "${pkgs.anyrun}/lib/libnix_run.so"
       ];
     };
