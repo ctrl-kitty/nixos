@@ -29,9 +29,10 @@
   ];
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode.fhs;
+    package = pkgs.vscode;
     profiles.default = {
       enableUpdateCheck = false;
+      enableExtensionUpdateCheck = false;
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide
         ms-python.python

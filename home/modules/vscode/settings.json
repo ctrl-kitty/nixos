@@ -3,7 +3,6 @@
   "files.autoSave": "onFocusChange",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "editor.suggest.matchOnWordStartOnly": false,
   "editor.suggestSelection": "first",
   "nix.enableLanguageServer": true,
   "nix.serverPath": "nixd",
@@ -25,5 +24,8 @@
   "nix.hiddenLanguageServerErrors": [
     "textDocument/definition",
     "textDocument/formatting"
-  ]
+  ],
+  "editor.acceptSuggestionOnEnter": "smart",
+  "terminal.external.linuxExec": "ghostty",
+  "terminal.integrated.defaultProfile.linux": "zsh",
 }
