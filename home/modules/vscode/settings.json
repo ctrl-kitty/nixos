@@ -28,4 +28,6 @@
   "editor.acceptSuggestionOnEnter": "smart",
   "terminal.external.linuxExec": "ghostty",
   "terminal.integrated.defaultProfile.linux": "zsh",
+  "explorer.confirmDelete": false,
+  "terminal.integrated.stickyScroll.enabled": false,
 }
