@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ options, pkgs, ... }:
 
 {
   imports = [
@@ -27,24 +27,25 @@
   # for uv
   programs.nix-ld = {
     enable = true;
-    #    libraries =
-    #      options.programs.nix-ld.libraries.default
-    #      ++ (with pkgs; [
-    #        glib # libglib-2.0.so.0
-    #        libGL
-    #        stdenv.cc.cc.lib
-    #        libxkbcommon
-    #        fontconfig
-    #        xorg.libX11
-    #        freetype
-    #        dbus
-    #        wayland
-    #      ]);
+    libraries =
+      options.programs.nix-ld.libraries.default
+      ++ (with pkgs; [
+        glib # libglib-2.0.so.0
+        #        libGL
+        #        stdenv.cc.cc.lib
+        #        libxkbcommon
+        #        fontconfig
+        #        xorg.libX11
+        #        freetype
+        #        dbus
+        #        wayland
+      ]);
   };
   environment.systemPackages = with pkgs; [
     wl-clicker
     (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
+    gcc
     nodejs_24
     tree
     tun2proxy
@@ -65,6 +66,7 @@
     unrar
     p7zip
     sddm-astronaut
+    postman
 
     # music player
     kdePackages.elisa

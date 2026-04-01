@@ -34,7 +34,15 @@ Optional: verify evaluation/build without switching:
 nix flake show
 sudo nixos-rebuild build --flake .#<host>
 ```
-
+## New module creation rules
+If possible - use home manager instead of system module
+Use 
+```
+  options.programs.androidVm = {
+    enable = lib.mkEnableOption "BlissOS Android 13 QEMU VM";
+  };
+```
+to make config easier to understand. So in future we can just enable modules without addition configuration.
 ## Folder structure rules
 
 - `flake.nix`

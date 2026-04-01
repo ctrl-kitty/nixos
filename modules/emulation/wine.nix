@@ -2,7 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     #    wineWowPackages.waylandFull
-    wineWowPackages.staging
-    winetricks
+    unstable.wineWowPackages.staging
+    unstable.winetricks
   ];
 }
