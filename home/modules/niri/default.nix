@@ -14,7 +14,8 @@ in
 {
   imports = [
     ./swaylock.nix
-    ./anyrun.nix
+    # ./anyrun.nix
+    ./rofi.nix
     ./nautilus.nix
   ];
   xdg.configFile."niri/config.kdl".text = finalConfig;

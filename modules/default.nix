@@ -8,6 +8,7 @@
     ./emulation/docker.nix
     ./emulation/wine.nix
     ./emulation/android.nix
+    ./emulation/waydroid.nix
     #	./graphic/plymouth.nix
     ./graphic/stylix.nix
     #    ./graphic/hyprland.nix
@@ -45,6 +46,7 @@
     wl-clicker
     (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
+    qbittorrent
     gcc
     nodejs_24
     tree
@@ -67,6 +69,9 @@
     p7zip
     sddm-astronaut
     postman
+    qimgv
+    aseprite
+    unstable.gemini-cli
 
     # music player
     kdePackages.elisa

@@ -540,10 +540,6 @@
         bluetoothDetailsViewMode = "grid";
         bluetoothHideUnnamedDevices = false;
         boxBorderEnabled = false;
-        fontDefault = "DejaVu Sans";
-        fontDefaultScale = 1.0;
-        fontFixed = "DejaVu Sans Mono";
-        fontFixedScale = 1.0;
         networkPanelView = "wifi";
         panelBackgroundOpacity = 1.0;
         panelsAttachedToBar = true;
