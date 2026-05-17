@@ -11,6 +11,7 @@
     ./throne/default.nix
     ./xdg/mimeapps.nix
     ./xdg/autostart.nix
+    ./xdg/portals.nix
     ./vscode/default.nix
   ];
 }

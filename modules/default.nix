@@ -53,6 +53,7 @@
     tun2proxy
     psmisc
     opencode # 4 gb trash??
+    obs-studio
     anirust
     libreoffice-qt6-fresh # 1.5 gb
     git

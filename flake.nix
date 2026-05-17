@@ -52,10 +52,12 @@
     let
       pkgsConfig = {
         config.allowUnfree = true;
+		config.android_sdk.accept_license = true;
         overlays = [
           (final: prev: {
             unstable = import nixpkgs-unstable {
               config.allowUnfree = true;
+			  config.android_sdk.accept_license = true;
               system = final.stdenv.hostPlatform.system;
             };
             burpsuitepro = burpsuitepro.packages.${final.stdenv.hostPlatform.system}.default;
