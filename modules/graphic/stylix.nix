@@ -10,6 +10,12 @@
       package = pkgs.kdePackages.breeze;
       name = "breeze_cursors";
     };
+    fonts = {
+      monospace = {
+        name = "JetBrainsMono Nerd Font";
+        package = pkgs.nerd-fonts.jetbrains-mono;
+      };
+    };
   };
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme

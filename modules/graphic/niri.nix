@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    xwayland-satellite
+    unstable.xwayland-satellite
     nautilus
   ];
   programs.niri.enable = true;

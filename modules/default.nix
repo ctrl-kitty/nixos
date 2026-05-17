@@ -8,6 +8,7 @@
     ./emulation/docker.nix
     ./emulation/wine.nix
     ./emulation/android.nix
+    ./emulation/waydroid.nix
     #	./graphic/plymouth.nix
     ./graphic/stylix.nix
     #    ./graphic/hyprland.nix
@@ -45,12 +46,14 @@
     wl-clicker
     (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
+    qbittorrent
     gcc
     nodejs_24
     tree
     tun2proxy
     psmisc
     opencode # 4 gb trash??
+    obs-studio
     anirust
     libreoffice-qt6-fresh # 1.5 gb
     git
@@ -67,6 +70,9 @@
     p7zip
     sddm-astronaut
     postman
+    qimgv
+    aseprite
+    unstable.gemini-cli
 
     # music player
     kdePackages.elisa
