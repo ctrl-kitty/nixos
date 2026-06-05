@@ -30,4 +30,6 @@
   "terminal.integrated.defaultProfile.linux": "zsh",
   "explorer.confirmDelete": false,
   "terminal.integrated.stickyScroll.enabled": false,
+  "http.systemCertificatesNode": true,
+  "geminicodeassist.project": "western-creek-396618",
 }

@@ -73,6 +73,7 @@
     qimgv
     aseprite
     unstable.gemini-cli
+	unstable.codex
 
     # music player
     kdePackages.elisa
