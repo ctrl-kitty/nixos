@@ -13,5 +13,6 @@
     ./xdg/autostart.nix
     ./xdg/portals.nix
     ./vscode/default.nix
+    ./wezterm/default.nix
   ];
 }

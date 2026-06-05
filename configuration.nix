@@ -84,6 +84,8 @@
     ];
   };
 
+  nix.settings.trusted-users = [ "@wheel" ];
+
   programs.firefox.enable = true;
   system.stateVersion = "25.11"; # Did you read the comment?
 }

@@ -13,7 +13,6 @@
 
       plugins = {
         volumeBooster.enable = true;
-#        ignoreTerms.enable = true;
         showHiddenChannels.enable = true;
       };
     };
