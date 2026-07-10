@@ -2,7 +2,7 @@
 
 {
   home.sessionVariables = {
-    TERMINAL = "ghostty";
+    TERMINAL = "wezterm";
     NIXOS_OZONE_WL = "1";
   };
 

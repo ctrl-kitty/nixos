@@ -1,0 +1,15 @@
+keys:
+  # Personal key (run: nix-shell -p age --run "age-keygen -y ~/.config/sops/age/keys.txt")
+  - &user_ktvsky age1p8q3qpu487gzt8wx9z8azvyg5uqy86hmchekmmrp6ty9f4pm7stqr5vuqk
+
+  # Machine keys (run on each host: nix-shell -p ssh-to-age --run "ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub")
+#  - &host_laptop REPLACE_WITH_LAPTOP_HOST_AGE_KEY
+  - &host_desktop age1r302n5u6cux3fx0jq2mw5s9zt3q2wytuewy5wmsunc86xeds3pmsymfdhn
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *user_ktvsky
+#      - *host_laptop
+      - *host_desktop

@@ -41,6 +41,7 @@
 
       # System management
       update = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#${flakeHost}";
+	  secrets = "nix-shell -p sops --run 'sops ~/.dotfiles/nixos/secrets/hermes.yaml'";
       clean = "sudo nix-collect-garbage -d && nix store optimise";
       rebuild = "sudo nixos-rebuild build --flake ~/.dotfiles/nixos#${flakeHost}";
       upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#${flakeHost} --update-input nixpkgs-unstable";

@@ -5,6 +5,7 @@
     ./classic/nixvim.nix
     ./classic/zsh.nix
     ./classic/gc.nix
+	./classic/obs.nix
     ./emulation/docker.nix
     ./emulation/wine.nix
     ./emulation/android.nix
@@ -15,8 +16,10 @@
     ./graphic/niri.nix
     ./security/firejail.nix
     ./security/web-pentest.nix
+    ./security/sops.nix
     ./gaming/steam.nix
     ./gaming/genshin.nix
+    ./hermes.nix
   ];
   programs.androidVm.enable = true;
   programs.throne = {
@@ -53,7 +56,7 @@
     tun2proxy
     psmisc
     opencode # 4 gb trash??
-    obs-studio
+#    obs-studio
     anirust
     libreoffice-qt6-fresh # 1.5 gb
     git
@@ -73,7 +76,8 @@
     qimgv
     aseprite
     unstable.gemini-cli
-	unstable.codex
+    unstable.codex
+    distrobox
 
     # music player
     kdePackages.elisa

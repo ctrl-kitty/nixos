@@ -2,7 +2,7 @@
 {
   programs.rofi = {
     enable = true;
-    terminal = "ghostty";
+    terminal = "wezterm";
     cycle = true;
     extraConfig = {
       show-icons = true;

@@ -34,6 +34,13 @@
       url = "github:ezKEa/aagl-gtk-on-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent?ref=v2026.6.19";
+    };
   };
   outputs =
     {
@@ -46,6 +53,8 @@
       stylix,
       burpsuitepro,
       nixcord,
+      sops-nix,
+      hermes-agent,
       aagl,
       ...
     }@inputs:
@@ -97,6 +106,8 @@
             home-manager.nixosModules.default
             stylix.nixosModules.stylix
             aagl.nixosModules.default
+            sops-nix.nixosModules.sops
+            hermes-agent.nixosModules.default
           ];
         };
     in
