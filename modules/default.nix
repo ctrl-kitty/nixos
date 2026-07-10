@@ -75,9 +75,9 @@
     postman
     qimgv
     aseprite
-    unstable.gemini-cli
-    unstable.codex
     distrobox
+	ffmpeg
+	yt-dlp
 
     # music player
     kdePackages.elisa
