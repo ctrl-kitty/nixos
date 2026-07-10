@@ -79,7 +79,7 @@
               postBuild = ''
                 wrapProgram $out/bin/AyuGram \
                   --set QT_QPA_PLATFORM wayland \
-				  --set QT_QPA_PLATFORMTHEME=xdgdesktopportal
+				  --set QT_QPA_PLATFORMTHEME=xdgdesktopportal \
                   --set QT_WAYLAND_CLIENT_BUFFER_INTEGRATION linux-dmabuf
 
                 # Disable D-Bus activation so wrapper is actually used
