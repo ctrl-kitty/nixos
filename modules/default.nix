@@ -47,7 +47,7 @@
   };
   environment.systemPackages = with pkgs; [
     wl-clicker
-    (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
+   # (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
     qbittorrent
     gcc
