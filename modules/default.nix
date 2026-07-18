@@ -5,7 +5,7 @@
     ./classic/nixvim.nix
     ./classic/zsh.nix
     ./classic/gc.nix
-	./classic/obs.nix
+    ./classic/obs.nix
     ./emulation/docker.nix
     ./emulation/wine.nix
     ./emulation/android.nix
@@ -35,6 +35,8 @@
       options.programs.nix-ld.libraries.default
       ++ (with pkgs; [
         glib # libglib-2.0.so.0
+        libayatana-appindicator
+        keybinder
         #        libGL
         #        stdenv.cc.cc.lib
         #        libxkbcommon
@@ -47,7 +49,7 @@
   };
   environment.systemPackages = with pkgs; [
     wl-clicker
-   # (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
+    # (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
     qbittorrent
     gcc
@@ -56,7 +58,7 @@
     tun2proxy
     psmisc
     opencode # 4 gb trash??
-#    obs-studio
+    #    obs-studio
     anirust
     libreoffice-qt6-fresh # 1.5 gb
     git
@@ -66,8 +68,8 @@
     uv
     mpv
     tor-browser
-    ayugram-desktop
-    prismlauncher
+    unstable.ayugram-desktop
+    unstable.prismlauncher
     kdePackages.ark
     unrar
     p7zip
@@ -76,8 +78,8 @@
     qimgv
     aseprite
     distrobox
-	ffmpeg
-	yt-dlp
+    ffmpeg
+    yt-dlp
 
     # music player
     kdePackages.elisa

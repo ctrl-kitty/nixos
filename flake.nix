@@ -64,31 +64,31 @@
 		config.android_sdk.accept_license = true;
         overlays = [
           (final: prev: {
-            unstable = import nixpkgs-unstable {
+            unstable = (import nixpkgs-unstable {
               config.allowUnfree = true;
 			  config.android_sdk.accept_license = true;
               system = final.stdenv.hostPlatform.system;
-            };
+            }).extend (unstable-final: unstable-prev: {
+              ayugram-desktop = unstable-final.symlinkJoin {
+                name = "ayugram-desktop-wayland";
+                paths = [ unstable-prev.ayugram-desktop ];
+                buildInputs = [ unstable-final.makeWrapper ];
+                postBuild = ''
+                  wrapProgram $out/bin/AyuGram \
+                    --set QT_QPA_PLATFORM wayland \
+                    --set QT_QPA_PLATFORMTHEME xdgdesktopportal \
+                    --set QT_WAYLAND_CLIENT_BUFFER_INTEGRATION linux-dmabuf
+
+                  rm $out/share/applications/com.ayugram.desktop.desktop
+                  substitute ${unstable-prev.ayugram-desktop}/share/applications/com.ayugram.desktop.desktop \
+                    $out/share/applications/com.ayugram.desktop.desktop \
+                    --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
+                '';
+              };
+            });
             burpsuitepro = burpsuitepro.packages.${final.stdenv.hostPlatform.system}.default;
             opencode = opencode.packages.${final.stdenv.hostPlatform.system}.default;
             anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
-            ayugram-desktop = final.symlinkJoin {
-              name = "ayugram-desktop-wayland";
-              paths = [ prev.ayugram-desktop ];
-              buildInputs = [ final.makeWrapper ];
-              postBuild = ''
-                wrapProgram $out/bin/AyuGram \
-                  --set QT_QPA_PLATFORM wayland \
-				  --set QT_QPA_PLATFORMTHEME xdgdesktopportal \
-                  --set QT_WAYLAND_CLIENT_BUFFER_INTEGRATION linux-dmabuf
-
-                # Disable D-Bus activation so wrapper is actually used
-                rm $out/share/applications/com.ayugram.desktop.desktop
-                substitute ${prev.ayugram-desktop}/share/applications/com.ayugram.desktop.desktop \
-                  $out/share/applications/com.ayugram.desktop.desktop \
-                  --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
-              '';
-            };
           })
         ];
       };
