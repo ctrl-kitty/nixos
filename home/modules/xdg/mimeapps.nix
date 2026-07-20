@@ -17,7 +17,7 @@ let
 
   nvimExe = lib.getExe nvimPkg;
 
-  terminalCmd = config.home.sessionVariables.TERMINAL or (lib.getExe pkgs.ghostty);
+  terminalCmd = config.home.sessionVariables.TERMINAL or (lib.getExe pkgs.wezterm);
 in
 {
   xdg.mimeApps.enable = true;

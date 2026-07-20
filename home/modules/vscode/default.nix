@@ -39,7 +39,7 @@
         ms-python.vscode-pylance
         ms-python.debugpy
         ms-dotnettools.csdevkit
-        visualstudiotoolsforunity.vstuc
+#        visualstudiotoolsforunity.vstuc
         ms-azuretools.vscode-containers
         mhutchie.git-graph
         ms-vscode-remote.remote-containers

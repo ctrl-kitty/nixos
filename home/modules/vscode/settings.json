@@ -26,8 +26,12 @@
     "textDocument/formatting"
   ],
   "editor.acceptSuggestionOnEnter": "smart",
-  "terminal.external.linuxExec": "ghostty",
+  "terminal.external.linuxExec": "wezterm",
   "terminal.integrated.defaultProfile.linux": "zsh",
   "explorer.confirmDelete": false,
   "terminal.integrated.stickyScroll.enabled": false,
+  "http.systemCertificatesNode": true,
+  "geminicodeassist.project": "western-creek-396618",
+  "python.languageServer": "Pylance",
+  "python.analysis.autoFormatStrings": true,
 }
