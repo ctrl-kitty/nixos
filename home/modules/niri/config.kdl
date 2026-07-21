@@ -35,7 +35,7 @@ layout {
 }
 
 // Startup
-spawn-at-startup "noctalia-shell"
+spawn-at-startup "noctalia"
 
 // Paths
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"

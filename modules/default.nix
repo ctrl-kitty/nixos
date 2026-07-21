@@ -21,6 +21,17 @@
     ./gaming/genshin.nix
     ./hermes.nix
   ];
+
+  nix.settings = {
+    substituters = [
+      "https://ezkea.cachix.org"
+      "https://noctalia.cachix.org"
+    ];
+    trusted-public-keys = [
+      "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
   programs.androidVm.enable = true;
   programs.throne = {
     #    package = pkgs.unstable.throne;
@@ -57,7 +68,8 @@
     tree
     tun2proxy
     psmisc
-    opencode # 4 gb trash??
+    android-tools
+    #  opencode # 4 gb trash??
     #    obs-studio
     anirust
     libreoffice-qt6-fresh # 1.5 gb
