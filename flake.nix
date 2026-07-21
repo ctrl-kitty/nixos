@@ -16,7 +16,7 @@
     };
     stylix = {
       url = "github:nix-community/stylix/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+	  inputs.nixpkgs.follows = "nixpkgs";
     };
     burpsuitepro = {
       url = "github:xiv3r/Burpsuite-Professional/main";

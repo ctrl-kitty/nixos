@@ -1,6 +1,7 @@
-{ ... }:
+{ config, ... }:
 {
   programs.firefox = {
+  configPath = "${config.xdg.configHome}/mozilla/firefox";
     enable = true;
     profiles = {
       default = {
@@ -8,7 +9,7 @@
       };
     };
   };
-  home.file.".mozilla/firefox/profiles.ini".force = true;
+#  home.file.".mozilla/firefox/profiles.ini".force = true;
   stylix.targets.firefox.profileNames = [ "default" ];
   stylix.targets.firefox.colorTheme.enable = true;
 }

@@ -20,8 +20,8 @@
 
   time.timeZone = "Europe/Moscow";
   # LOCALES
-#  i18n.defaultLocale = "ru_RU.UTF-8";
-    i18n.defaultLocale = "en_US.UTF-8";
+  #  i18n.defaultLocale = "ru_RU.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   #  i18n.extraLocales = [ "ru_RU.UTF-8/UTF-8" ];
   #  i18n.extraLocaleSettings = {
   #    LC_ALL = "en_US.UTF-8";
@@ -94,6 +94,6 @@
 
   nix.settings.trusted-users = [ "@wheel" ];
 
-  programs.firefox.enable = true;
-  system.stateVersion = "25.11"; # Did you read the comment?
+#  programs.firefox.enable = true;
+  system.stateVersion = "26.05"; # Did you read the comment?
 }
