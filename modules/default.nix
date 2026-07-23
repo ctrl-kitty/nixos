@@ -63,6 +63,7 @@
     # (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
     qbittorrent
+	unstable.opencode
     gcc
     nodejs_24
     tree

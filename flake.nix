@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
-    opencode.url = "github:anomalyco/opencode?ref=v1.18.4";
     anirust.url = "github:ctrl-kitty/anirust";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -45,7 +44,6 @@
     {
       nixpkgs,
       nixpkgs-unstable,
-      opencode,
       anirust,
       home-manager,
       nixvim,
@@ -86,7 +84,6 @@
               };
             });
             burpsuitepro = burpsuitepro.packages.${final.stdenv.hostPlatform.system}.default;
-            opencode = opencode.packages.${final.stdenv.hostPlatform.system}.default;
             anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
           })
         ];
