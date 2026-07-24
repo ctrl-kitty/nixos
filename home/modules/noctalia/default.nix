@@ -8,6 +8,7 @@
 {
   programs.noctalia = {
     enable = true;
+    systemd.enable = true;
 
     settings = {
       audio = {
@@ -89,6 +90,7 @@
       shell = {
         app_icon_colorize = true;
         polkit_agent = true;
+        launch_apps_as_systemd_services = true;
       };
 
       theme = {
@@ -129,6 +131,21 @@
       };
     };
   }; # fix icons
+
+  # Fix race condition: noctalia.service is Type=simple by default, so systemd marks it
+  # "started" the moment the process forks — before the tray host and notification daemon
+  # are actually ready. Apps in *-autostart.service declare After=noctalia.service, but
+  # that ordering guarantee is meaningless with Type=simple.
+  #
+  # noctalia --daemon forks into the background and the parent exits only *after* the
+  # shell has fully initialised. With Type=forking, systemd waits for that parent exit,
+  # so noctalia.service reaches active state only when noctalia is genuinely ready.
+  systemd.user.services.noctalia = lib.mkIf config.programs.noctalia.systemd.enable {
+    Service = {
+      ExecStart = lib.mkForce "${lib.getExe config.programs.noctalia.package} --daemon";
+      Type = lib.mkForce "forking";
+    };
+  };
   #home.packages = with pkgs; [
   # Fallback for GNOME apps
   #gnome-icon-theme

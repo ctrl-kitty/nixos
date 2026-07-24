@@ -1,29 +1,53 @@
 {
   pkgs,
   config,
+  lib,
   osConfig,
   ...
 }:
 let
-  replaceExec =
-    package: name: newExec:
-    (pkgs.runCommand name { } ''
-      mkdir -p $out
-      src=${package}/share/applications/${name}
-      sed 's|^Exec=.*$|Exec=${newExec}|' "$src" > $out/${name}
-    '')
-    + /${name};
+  warnNoVesktop = lib.warnIf (!config.programs.nixcord.vesktop.enable)
+    "Vesktop is configured for autostart (vesktop --start-minimized) but nixcord vesktop is not enabled (programs.nixcord.vesktop.enable = true). Either enable it or remove the entry.";
+
+  mkAutostartService = { name, description, exec }:
+    lib.nameValuePair "${name}-autostart" {
+      Unit = {
+        Description = description;
+        After = [ "graphical-session.target" "noctalia.service" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        Type = "exec";
+        ExecStartPre = "${pkgs.glib.bin}/bin/gdbus wait --session org.kde.StatusNotifierWatcher --timeout 20";
+        ExecStart = exec;
+        Restart = "no";
+        TimeoutStopSec = 5;
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+    };
 in
 {
-  # Use program.package if can be to respect hidden login
-  xdg.autostart = {
-    enable = true;
-    entries = [
-      (replaceExec osConfig.programs.throne.package "throne.desktop" "Throne -tray -appdata")
-      (replaceExec pkgs.ayugram-desktop "com.ayugram.desktop.desktop" "AyuGram -autostart")
-      (replaceExec config.programs.nixcord.finalPackage.vesktop "vesktop.desktop"
-        "vesktop --start-minimized"
-      )
-    ];
-  };
+  systemd.user.services = lib.listToAttrs [
+    (mkAutostartService {
+      name = "throne";
+      description = "Throne";
+      exec = "${osConfig.programs.throne.package}/bin/Throne -tray -appdata";
+    })
+    (mkAutostartService {
+      name = "ayugram";
+      description = "AyuGram Desktop";
+      exec = "${pkgs.ayugram-desktop}/bin/AyuGram -startintray";
+    })
+    (warnNoVesktop (mkAutostartService {
+      name = "vesktop";
+      description = "Vesktop";
+      exec = "${config.programs.nixcord.finalPackage.vesktop}/bin/vesktop --start-minimized";
+    }))
+  ];
+
+  home.activation.cleanupStaleAutostart = config.lib.dag.entryAfter ["linkGeneration"] ''
+    rm -f "$HOME/.config/autostart/Throne.desktop"
+  '';
 }
