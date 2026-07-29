@@ -1,9 +1,15 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  flakeHost,
+  ...
+}:
 {
   environment.variables.EDITOR = "nvim";
   environment.variables.VISUAL = "nvim";
   programs.nixvim = {
     enable = true;
+    nixpkgs.useGlobalPackages = true;
     plugins = {
       bufferline = {
         enable = true;
@@ -103,10 +109,10 @@
       nixd = {
         enable = true;
         config.settings.nixd = {
-          nixpkgs.expr = "(builtins.getFlake (\"git+file://\" + toString ./.)).nixosConfigurations.RedNixOs.pkgs";
+          nixpkgs.expr = "(builtins.getFlake (\"git+file://\" + toString ./.)).nixosConfigurations.${flakeHost}.pkgs";
           formatting.command = [ "${lib.getExe pkgs.nixfmt}" ];
           options = {
-            nixos.expr = "(builtins.getFlake (\"git+file://\" + toString ./.)).nixosConfigurations.RedNixOs.options";
+            nixos.expr = "(builtins.getFlake (\"git+file://\" + toString ./.)).nixosConfigurations.${flakeHost}.options";
           };
         };
       };

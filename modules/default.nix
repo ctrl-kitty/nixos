@@ -60,6 +60,9 @@
   };
   environment.systemPackages = with pkgs; [
     wl-clicker
+    # niri hotkeys (brightness / media keys)
+    brightnessctl
+    playerctl
     # (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
     qbittorrent

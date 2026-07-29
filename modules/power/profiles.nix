@@ -504,5 +504,8 @@ in
   # Trigger profile switching on AC/BAT changes.
   services.udev.extraRules = ''
     SUBSYSTEM=="power_supply", ACTION=="change", TAG+="systemd", ENV{SYSTEMD_WANTS}+="power-profile-auto.service"
+
+    # Disable USB autosuspend for MediaTek Bluetooth Controller (13d3:3563) to prevent desync/disconnects
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="13d3", ATTR{idProduct}=="3563", ATTR{power/control}="on"
   '';
 }

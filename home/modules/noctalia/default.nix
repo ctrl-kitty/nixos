@@ -113,6 +113,11 @@
           hide_when_plugged = true;
         };
 
+        # clock itself defaults to {:%H:%M} (24h); tooltip default is {:%a %d %b}
+        clock = {
+          tooltip_format = "{:%a %d.%m}";
+        };
+
         brightness = {
           show_label = false;
         };

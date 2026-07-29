@@ -39,13 +39,13 @@
       la = "eza -la --icons --group-directories-first";
       lt = "eza --tree --level=2 --icons";
 
-      # System management
-      update = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#${flakeHost}";
+      # System management (nh uses programs.nh.flake; -H picks the flake host)
+      update = "nh os switch -H ${flakeHost}";
 	  secrets = "nix-shell -p sops --run 'sops ~/.dotfiles/nixos/secrets/hermes.yaml'";
-      clean = "sudo nix-collect-garbage -d && nix store optimise && rm -rf /home/ktvsky/.local/share/Trash/";
-      rebuild = "sudo nixos-rebuild build --flake ~/.dotfiles/nixos#${flakeHost}";
-      upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#${flakeHost} --update-input nixpkgs-unstable";
-      repl = "nixos-rebuild repl --flake ~/.dotfiles/nixos#${flakeHost}";
+      clean = "nh clean all && nix store optimise && rm -rf /home/ktvsky/.local/share/Trash/";
+      rebuild = "nh os build -H ${flakeHost}";
+      upgrade = "nh os switch -H ${flakeHost} -u";
+      repl = "nh os repl -H ${flakeHost}";
       ptun = "sudo tun2proxy-bin --proxy http://127.0.0.1:2080 --tun ptun";
 
       #      opencode = "export HTTPS_PROXY=http://127.0.0.1:2080 && steam-run opencode"; # opencode not statically linked yet

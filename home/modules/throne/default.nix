@@ -1,6 +1,6 @@
 { ... }:
 {
-  # rewrite to
+  # force = true: Throne rewrites these at runtime; nix config is the source of truth
   xdg.configFile."Throne/config/route_profiles/123.json" = {
     source = ./rules.json;
     force = true;

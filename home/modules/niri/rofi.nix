@@ -4,6 +4,7 @@
     enable = true;
     terminal = "wezterm";
     cycle = true;
+    font = lib.mkForce "JetBrainsMono Nerd Font Bold 10";
     extraConfig = {
       show-icons = true;
 
@@ -11,6 +12,9 @@
       padding = 10;
 
       spacing = 8;
+
+      # Hide android (waydroid) app entries
+      drun-exclude-categories = "X-WayDroid-App";
     };
     theme = lib.mkAfter {
       "*" = {
@@ -33,7 +37,7 @@
 
       element-icon = {
         size = 24;
-        margin = "0 8px 0 0";
+        margin = "0 14px 0 0";
       };
 
       element-text = {

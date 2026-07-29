@@ -34,6 +34,9 @@ layout {
     }
 }
 
+// Ask clients to omit their client-side decorations (titlebars)
+prefer-no-csd
+
 // Paths
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
