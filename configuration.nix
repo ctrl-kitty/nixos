@@ -39,6 +39,7 @@
   #    LC_COLLATE = "en_US.UTF-8";
   #  };
 
+  services.gvfs.enable = true;
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
@@ -55,9 +56,19 @@
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
-  # Enable sound with pipewire.
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      cups-filters
+      cups-browsed
+    ];
+  }; # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -94,6 +105,6 @@
 
   nix.settings.trusted-users = [ "@wheel" ];
 
-#  programs.firefox.enable = true;
+  #  programs.firefox.enable = true;
   system.stateVersion = "26.05"; # Did you read the comment?
 }

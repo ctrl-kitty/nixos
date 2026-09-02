@@ -86,6 +86,7 @@
     tor-browser
     unstable.ayugram-desktop
     unstable.prismlauncher
+    flclashx
     kdePackages.ark
     unrar
     p7zip
