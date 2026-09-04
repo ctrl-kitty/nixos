@@ -34,4 +34,5 @@
   "geminicodeassist.project": "western-creek-396618",
   "python.languageServer": "Pylance",
   "python.analysis.autoFormatStrings": true,
+  "workbench.colorTheme": "Dark Modern",
 }

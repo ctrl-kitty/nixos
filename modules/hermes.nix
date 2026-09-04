@@ -35,7 +35,7 @@
 
     settings = {
       model.base_url = "http://host.docker.internal:20128/v1";
-      model.default = "test";
+      model.default = "antigravity/gemini-3.7-flash-tiered";
       telegram.proxy = "http://host.docker.internal:2080";
       toolsets = [ "all" ];
     };

@@ -37,7 +37,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hermes-agent = {
-      url = "github:NousResearch/hermes-agent?ref=v2026.6.19";
+      url = "github:NousResearch/hermes-agent?ref=v2026.8.19";
     };
   };
   outputs =
@@ -85,6 +85,8 @@
             });
             burpsuitepro = burpsuitepro.packages.${final.stdenv.hostPlatform.system}.default;
             anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
+            libayatana-ido = final.callPackage ./pkgs/libayatana-ido.nix { };
+            flclashx = final.callPackage ./pkgs/flclashx.nix { };
           })
         ];
       };

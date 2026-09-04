@@ -45,6 +45,11 @@ in
       description = "Vesktop";
       exec = "${config.programs.nixcord.finalPackage.vesktop}/bin/vesktop --start-minimized";
     }))
+    (mkAutostartService {
+      name = "flclashx";
+      description = "FlClashX";
+      exec = "${pkgs.flclashx}/bin/flclashx";
+    })
   ];
 
   home.activation.cleanupStaleAutostart = config.lib.dag.entryAfter ["linkGeneration"] ''
