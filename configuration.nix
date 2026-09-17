@@ -42,54 +42,60 @@
   #    LC_COLLATE = "en_US.UTF-8";
   #  };
 
-  services.gvfs.enable = true;
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-    theme = "sddm-astronaut-theme";
-    extraPackages = with pkgs; [
-      sddm-astronaut
-    ];
-  };
-  #  services.desktopManager.plasma6.enable = true;
+  services = {
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+      theme = "sddm-astronaut-theme";
+      extraPackages = with pkgs; [
+        sddm-astronaut
+      ];
+    };
+    #  services.desktopManager.plasma6.enable = true;
 
-  services.xserver.xkb = {
-    layout = "us,ru";
-    variant = "";
-  };
+    xserver.xkb = {
+      layout = "us,ru";
+      variant = "";
+    };
 
-  # Enable CUPS to print documents.
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
+    # Enable CUPS to print documents.
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
 
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [
-      cups-filters
-      cups-browsed
-    ];
-  }; # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
+    # Enable storage device mounting and auto-mounting integration
+    udisks2.enable = true;
+    gvfs.enable = true;
 
-  services.libinput.enable = true;
+    # Enable sound with pipewire.
+    printing = {
+      enable = true;
+      drivers = with pkgs; [
+        cups-filters
+        cups-browsed
+      ];
+    }; # Enable sound with pipewire.
+    pulseaudio.enable = false;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
 
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      PermitRootLogin = "no";
+    libinput.enable = true;
+
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
+      };
     };
   };
+  security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ktvsky = {

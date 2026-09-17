@@ -14,6 +14,10 @@
       ];
 
       programs.home-manager.enable = true;
+      services.udiskie = {
+        enable = true;
+        tray = "auto";
+      };
       home.stateVersion = "26.05";
     };
   };
