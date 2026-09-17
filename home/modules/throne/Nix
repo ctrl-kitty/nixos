@@ -3,12 +3,12 @@
     "direct_dns": "localhost",
     "direct_dns_strategy": "",
     "dns_final_out": "remote",
-    "dns_object": "",
+    "dns_object": "{\n    \"servers\": [\n        {\n            \"tag\": \"dns-direct\",\n            \"type\": \"local\"\n        },\n        {\n            \"tag\": \"dns-remote\",\n            \"type\": \"tls\",\n            \"server\": \"8.8.8.8\",\n            \"server_port\": 853\n        },\n        {\n            \"tag\": \"dns-xbox\",\n            \"type\": \"tls\",\n            \"server\": \"111.88.96.50\",\n            \"server_port\": 853,\n            \"tls\": {\n                \"enabled\": true,\n                \"server_name\": \"xbox-dns.ru\"\n            }\n        }\n    ],\n    \"rules\": [\n        {\n            \"domain\": [\n                \"aisandbox-pa.googleapis.com\",\n                \"aistudio.google.com\",\n                \"aitestkitchen.withgoogle.com\",\n                \"alkalimakersuite-pa.clients6.google.com\",\n                \"assistant-s3-pa.googleapis.com\",\n                \"gemini.google.com\",\n                \"generativelanguage.googleapis.com\",\n                \"jules.google.com\",\n                \"labs.google\",\n                \"notebooklm.google\",\n                \"notebooklm.google.com\",\n                \"o.pki.goog\",\n                \"proactivebackend-pa.googleapis.com\",\n                \"robinfrontend-pa.googleapis.com\",\n                \"stitch.withgoogle.com\",\n                \"webchannel-alkalimakersuite-pa.clients6.google.com\",\n                \"cloudcode-pa.googleapis.com\",\n                \"daily-cloudcode-pa.googleapis.com\"\n            ],\n            \"server\": \"dns-xbox\"\n        },\n        {\n            \"domain_suffix\": [\n                \".ru\",\n                \".su\",\n                \".xn--p1ai\",\n                \".ru.net\"\n            ],\n            \"server\": \"dns-direct\"\n        }\n    ],\n    \"final\": \"dns-remote\",\n    \"strategy\": \"prefer_ipv4\"\n}",
     "domain_strategy": "",
     "outbound_domain_strategy": "",
     "remote_dns": "tls://8.8.8.8",
     "remote_dns_strategy": "",
     "ruleset_mirror": 123,
     "sniffing_mode": 1,
-    "use_dns_object": false
+    "use_dns_object": true
 }

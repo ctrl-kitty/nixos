@@ -39,6 +39,11 @@
     device = "/dev/disk/by-uuid/8CD8-43D0";
     fsType = "vfat";
   };
+  fileSystems."/home/ktvsky/games" = {
+    device = "/dev/disk/by-uuid/c1f137c5-a12f-486d-8272-ecf000c74469";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

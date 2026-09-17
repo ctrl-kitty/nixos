@@ -87,6 +87,7 @@
             anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
             libayatana-ido = final.callPackage ./pkgs/libayatana-ido.nix { };
             flclashx = final.callPackage ./pkgs/flclashx.nix { };
+            ayugram-desktop = final.unstable.ayugram-desktop;
           })
         ];
       };

@@ -73,6 +73,7 @@
     tun2proxy
     psmisc
     android-tools
+	unstable.wechat-uos
     #  opencode # 4 gb trash??
     #    obs-studio
     anirust
@@ -82,6 +83,9 @@
     obsidian
     steam-run
     uv
+	godot
+	claude-code
+	unstable.codex
     mpv
     tor-browser
     unstable.ayugram-desktop

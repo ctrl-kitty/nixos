@@ -15,6 +15,9 @@
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.networkmanager.enable = true;
   networking.proxy.httpsProxy = "http://127.0.0.1:2080";
+  networking.hosts = {
+    "127.0.0.1" = [ "host.docker.internal" ];
+  };
   programs.nh.enable = true;
   programs.nh.flake = "/home/ktvsky/.dotfiles/nixos/";
 
