@@ -12,8 +12,10 @@
     ./emulation/waydroid.nix
     #	./graphic/plymouth.nix
     ./graphic/stylix.nix
+    ./graphic/gdm.nix
     #    ./graphic/hyprland.nix
     ./graphic/niri.nix
+    ./graphic/file-associations.nix
     ./security/firejail.nix
     ./security/web-pentest.nix
     ./security/sops.nix
@@ -79,8 +81,11 @@
     anirust
     libreoffice-qt6-fresh # 1.5 gb
     git
+	unstable.unityhub
+	unstable.blender
     wget
     obsidian
+    logseq-og
     steam-run
     uv
 	godot
@@ -94,7 +99,6 @@
     kdePackages.ark
     unrar
     p7zip
-    sddm-astronaut
     postman
     qimgv
     aseprite

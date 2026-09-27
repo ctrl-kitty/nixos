@@ -7,6 +7,11 @@
 }:
 
 let
+  # An absolute checkout path, not a Nix path copied into the read-only store.
+  sharedMimeApps = config.lib.file.mkOutOfStoreSymlink (
+    "${config.home.homeDirectory}/.dotfiles/nixos/home/modules/xdg/mimeapps.list"
+  );
+
   nvimPkg =
     if (osConfig.programs.nixvim.package or null) != null then
       osConfig.programs.nixvim.package
@@ -20,8 +25,14 @@ let
   terminalCmd = config.home.sessionVariables.TERMINAL or (lib.getExe pkgs.wezterm);
 in
 {
-  xdg.mimeApps.enable = true;
-  xdg.configFile."mimeapps.list".force = true;
+  # Keep system fallbacks in modules/graphic/file-associations.nix, while GUI
+  # choices write to the checkout and travel with it between hosts.
+  xdg.mimeApps.enable = false;
+  xdg.configFile."mimeapps.list".source = sharedMimeApps;
+  xdg.dataFile."applications/mimeapps.list".source = sharedMimeApps;
+
+  home.packages = [ pkgs.kdePackages.kate ];
+
   xdg.desktopEntries = lib.mkIf osConfig.programs.nixvim.enable {
     nvim = {
       name = "Neovim";
@@ -33,7 +44,7 @@ in
       ];
       terminal = false;
 
-      exec = "${lib.escapeShellArg terminalCmd} -e ${lib.escapeShellArg nvimExe}";
+      exec = "${lib.escapeShellArg terminalCmd} -e ${lib.escapeShellArg nvimExe} %F";
 
       mimeType = [
         "text/plain"
@@ -44,33 +55,4 @@ in
       ];
     };
   };
-
-  xdg.mimeApps.defaultApplications = lib.mkMerge [
-    (lib.mkIf config.programs.mpv.enable {
-      "video/mp4" = "mpv.desktop";
-      "video/x-matroska" = "mpv.desktop";
-      "video/webm" = "mpv.desktop";
-      "video/x-msvideo" = "mpv.desktop";
-      "video/quicktime" = "mpv.desktop";
-      "video/mpeg" = "mpv.desktop";
-    })
-
-    (lib.mkIf osConfig.programs.nixvim.enable {
-      "text/plain" = "nvim.desktop";
-      "text/markdown" = "nvim.desktop";
-      "application/json" = "nvim.desktop";
-      "application/x-yaml" = "nvim.desktop";
-      "application/x-shellscript" = "nvim.desktop";
-    })
-  ];
-
-  xdg.mimeApps.associations.added = lib.mkMerge [
-    (lib.mkIf config.programs.mpv.enable {
-      "video/mp4" = [ "mpv.desktop" ];
-      "video/x-matroska" = [ "mpv.desktop" ];
-    })
-    (lib.mkIf osConfig.programs.nixvim.enable {
-      "text/plain" = [ "nvim.desktop" ];
-    })
-  ];
 }

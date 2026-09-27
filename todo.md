@@ -1,6 +1,3 @@
-# Lock manager
-1. Try gdm
-
 # SSH
 1. create rofi module with ssh known hosts(can add notes, custom names, auto connect)
 

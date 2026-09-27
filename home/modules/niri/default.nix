@@ -16,7 +16,7 @@ in
     ./swaylock.nix
     # ./anyrun.nix
     ./rofi.nix
-    ./nautilus.nix
+    ./dolphin.nix
   ];
   xdg.configFile."niri/config.kdl".text = finalConfig;
 

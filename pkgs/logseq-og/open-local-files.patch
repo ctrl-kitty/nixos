@@ -1,0 +1,50 @@
+--- a/resources/js/preload.js
++++ b/resources/js/preload.js
+@@ -1,5 +1,6 @@
+ const fs = require('fs')
+ const path = require('path')
++const { fileURLToPath } = require('url')
+ const { ipcRenderer, contextBridge, shell, clipboard, webFrame } = require('electron')
+ 
+ const IS_MAC = process.platform === 'darwin'
+@@ -7,6 +8,40 @@
+ 
+ const ALLOWED_EXTERNAL_PROTOCOLS = ['https:', 'http:', 'mailto:', 'zotero:', 'file:']
+ 
++// Chromium blocks file:// navigation from the lsp:// renderer before the
++// main process receives a window-open event. Open local links through the
++// native shell, keeping webSecurity enabled and plugin documents untouched.
++if (process.isMainFrame && window.location.origin === 'lsp://logseq.com' &&
++    ['/electron.html', '/index.html'].includes(window.location.pathname)) {
++  const openLocalLink = (event) => {
++    if (event.defaultPrevented ||
++        (event.type === 'click' ? event.button !== 0 : event.button !== 1)) return
++    const anchor = event.target.closest?.('a[href]')
++    if (!anchor || !anchor.href.startsWith('file:')) return
++
++    // Logseq keeps the unescaped filesystem path in data-href. Prefer it:
++    // interpreting a literal # or % in a filename as a URL corrupts the path.
++    let filePath
++    try {
++      const rawPath = anchor.getAttribute('data-href')
++      filePath = rawPath && path.isAbsolute(rawPath)
++        ? rawPath
++        : fileURLToPath(anchor.href)
++    } catch (error) {
++      console.error('Unable to resolve local file link:', error)
++      return
++    }
++
++    event.preventDefault()
++    event.stopPropagation()
++    shell.openPath(filePath).then((error) => {
++      if (error) console.error('Unable to open local file:', filePath, error)
++    }).catch((error) => console.error('Unable to open local file:', filePath, error))
++  }
++  document.addEventListener('click', openLocalLink, true)
++  document.addEventListener('auxclick', openLocalLink, true)
++}
++
+ function getFilePathFromClipboard () {
+   if (IS_WIN32) {
+     const rawFilePath = clipboard.read('FileNameW')

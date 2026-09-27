@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
+    # PR #516682: Markdown-based Logseq OG with Electron 40+ plugin fixes.
+    logseq-nixpkgs = {
+      url = "github:NixOS/nixpkgs/7aa04bb9323bbc4b95a681dd1b4f3ae01e2e9463";
+      flake = false;
+    };
     anirust.url = "github:ctrl-kitty/anirust";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -87,6 +92,15 @@
             anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
             libayatana-ido = final.callPackage ./pkgs/libayatana-ido.nix { };
             flclashx = final.callPackage ./pkgs/flclashx.nix { };
+            proton-game = final.callPackage ./pkgs/proton-game { };
+            logseq-og = (final.unstable.callPackage
+              "${inputs.logseq-nixpkgs}/pkgs/by-name/lo/logseq-og/package.nix"
+              { }).overrideAttrs (oldAttrs: {
+                patches = (oldAttrs.patches or [ ]) ++ [
+                  ./pkgs/logseq-og/open-local-files.patch
+                  ./pkgs/logseq-og/preview-local-files.patch
+                ];
+              });
             ayugram-desktop = final.unstable.ayugram-desktop;
           })
         ];
@@ -112,6 +126,11 @@
         };
     in
     {
+      packages.x86_64-linux.proton-game =
+        (import nixpkgs ({ system = "x86_64-linux"; } // pkgsConfig)).proton-game;
+      packages.x86_64-linux.logseq-og =
+        (import nixpkgs ({ system = "x86_64-linux"; } // pkgsConfig)).logseq-og;
+
       nixosConfigurations = {
         laptop = mkHost "laptop" ./hosts/laptop;
         desktop = mkHost "desktop" ./hosts/desktop;

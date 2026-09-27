@@ -1,0 +1,172 @@
+--- a/src/main/frontend/components/block.cljs
++++ b/src/main/frontend/components/block.cljs
+@@ -1079,6 +1079,80 @@
+       :else
+       (asset-reference config label s))))
+ 
++(rum/defcs text-file-preview < rum/reactive
++  {:will-mount
++   (fn [state]
++     (let [*result (atom nil)
++           [file-path] (:rum/args state)]
++       (-> (js/window.apis.readTextFilePreview file-path)
++           (p/then #(reset! *result (bean/->clj %)))
++           (p/catch (fn [_] (reset! *result {:error true}))))
++       (assoc state ::preview-result *result)))}
++  [state file-path]
++  (let [{:keys [text truncated error] :as result} (rum/react (::preview-result state))]
++    [:div.tippy-wrapper.text-file-preview.p-4
++     {:style {:width 600 :max-width "calc(100vw - 48px)" :text-align "left"}}
++     [:div.font-semibold.mb-2 {:style {:overflow-wrap "anywhere"}}
++      (.basename util/node-path file-path)]
++     (cond
++       (nil? result) (ui/loading)
++       error [:div.opacity-70 "Unable to read this file."]
++       (= text "") [:div.opacity-70 "Empty file"]
++       :else [:pre.text-sm
++              {:style {:white-space "pre-wrap" :overflow-wrap "anywhere"
++                       :max-height 320 :overflow-y "auto" :margin 0}}
++              text])
++     (when truncated [:div.text-sm.opacity-70.mt-2 "…"])
++     [:div.text-xs.opacity-70.mt-3 "Click the link to open the full file."]]))
++
++(rum/defc text-file-preview-trigger
++  [file-path child]
++  (ui/tippy {:in-editor? true
++             :html #(rum/with-key (text-file-preview file-path) file-path)
++             :interactive true
++             :delay [1000 100]
++             :position "top"
++             :distance 10
++             :popperOptions {:modifiers {:preventOverflow
++                                         {:enabled true :boundariesElement "viewport"}}}}
++            child))
++
++(defn- desktop-local-file-link
++  [config file-path label title]
++  (let [ext (keyword (util/get-file-ext file-path))
++        label (->elem :span (map-inline config label))]
++    (cond
++      (contains? (gp-config/text-formats) ext)
++      (let [link [:a.asset-ref.is-plaintext
++                  {:href (rfe/href :file {:path file-path})
++                   :title title
++                   :on-click (fn [event]
++                               (util/stop event)
++                               (rfe/push-state :file {:path file-path}))}
++                  label]]
++        (if (= ext :txt)
++          (text-file-preview-trigger file-path link)
++          link))
++
++      (= ext :pdf)
++      [:a.asset-ref.is-pdf
++       {:data-href file-path :title title :role "button" :tab-index 0
++        :on-click (fn [event]
++                    (util/stop event)
++                    (when-let [asset (pdf-assets/inflate-asset file-path)]
++                      (state/set-current-pdf! asset)))
++        :on-key-down (fn [event]
++                       (when (contains? #{"Enter" " "} (.-key event))
++                         (util/stop event)
++                         (when-let [asset (pdf-assets/inflate-asset file-path)]
++                           (state/set-current-pdf! asset))))}
++       label]
++
++      :else
++      [:a {:href (path/path-join "file://" file-path)
++           :data-href file-path :target "_blank" :title title}
++       label])))
++
+ (defn- search-link-cp
+   [config url s label title metadata full_text]
+   (cond
+@@ -1119,15 +1193,7 @@
+ 
+                  :else
+                  (relative-assets-path->absolute-path s))]
+-      (->elem
+-       :a
+-       (cond->
+-        {:href      (path/path-join "file://" path)
+-         :data-href path
+-         :target    "_blank"}
+-        title
+-        (assoc :title title))
+-       (map-inline config label)))
++      (desktop-local-file-link config path label title))
+ 
+     :else
+     (page-reference (:html-export? config) s config label)))
+@@ -1202,13 +1268,14 @@
+                 (let [href* (if (util/electron?)
+                               (relative-assets-path->absolute-path href)
+                               href)]
+-                  (->elem
+-                   :a
+-                   (cond-> {:href      (path/path-join "file://" href*)
+-                            :data-href href*
+-                            :target    "_blank"}
+-                     title (assoc :title title))
+-                   (map-inline config label))))))
++                  (if (util/electron?)
++                    (desktop-local-file-link config href* label title)
++                    (->elem
++                     :a
++                     (cond-> {:href (path/path-join "file://" href*)
++                              :data-href href* :target "_blank"}
++                       title (assoc :title title))
++                     (map-inline config label)))))))
+ 
+           (show-link? config metadata href full_text)
+           (media-link config url href label metadata full_text)
+--- a/resources/js/preload.js
++++ b/resources/js/preload.js
+@@ -121,6 +121,28 @@
+     await shell.openExternal(url, options)
+   },
+ 
++  // Read a bounded UTF-8 prefix only when the attachment preview is shown.
++  async readTextFilePreview (filePath) {
++    const handle = await fs.promises.open(filePath, 'r')
++    try {
++      const buffer = Buffer.alloc(8193)
++      const { bytesRead } = await handle.read(buffer, 0, buffer.length, 0)
++      const { StringDecoder } = require('string_decoder')
++      const text = new StringDecoder('utf8').write(buffer.subarray(0, Math.min(bytesRead, 8192)))
++      return { text: text.slice(0, 4000), truncated: bytesRead > 8192 || text.length > 4000 }
++    } finally {
++      await handle.close()
++    }
++  },
++
++  // PDF.js cannot fetch file:// (or assets://) from the lsp:// renderer.
++  // Transfer local bytes through the existing isolated preload bridge instead.
++  async readLocalPdf (url) {
++    const filePath = fileURLToPath(url.replace(/^assets:/, 'file:'))
++    const buffer = await fs.promises.readFile(filePath)
++    return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength)
++  },
++
+   async openPath (path) {
+     await shell.openPath(path)
+   },
+--- a/src/main/frontend/extensions/pdf/core.cljs
++++ b/src/main/frontend/extensions/pdf/core.cljs
+@@ -923,7 +923,15 @@
+ 
+          (set-loader-state! {:status :loading})
+ 
+-         (-> (get-doc$ (clj->js opts))
++         (-> (p/let [opts (if (and (util/electron?)
++                                   (or (string/starts-with? url "file://")
++                                       (string/starts-with? url "assets://")))
++                            (p/let [data (js/window.apis.readLocalPdf url)]
++                              (-> opts
++                                  (dissoc :url)
++                                  (assoc :data (js/Uint8Array. data))))
++                            opts)]
++               (get-doc$ (clj->js opts)))
+              (p/then (fn [doc]
+                        (set-loader-state! {:pdf-document doc :status :completed})))
+              (p/catch #(set-loader-state! {:error %})))
