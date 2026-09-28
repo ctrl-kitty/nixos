@@ -12,12 +12,24 @@ compatibility patch:
   delay. Local PDF bytes pass through the Electron preload bridge because
   PDF.js cannot fetch local URLs from the lsp renderer. Unsupported formats
   retain the system application fallback.
+- `fix-previews-and-pdf.patch`: Markdown attachments (both `[label](file.md)`
+  and `![label](file.md)`) have a formatted hover preview. Attachment cards use
+  the bounded reader and sanitized HTML. Indexed Markdown files and
+  wiki page links keep Logseq's native page previews and navigation. File links
+  resolve the indexed page by target path, not by display label; otherwise
+  a link such as `[Read this](../pages/Actual.md)` previews an empty `Read this` page.
+  PDFs follow the application theme by default; `Auto` in the PDF theme picker
+  restores this after choosing a fixed light/warm/dark theme. The old implicit
+  `light` preference is replaced by Auto on the first run of this patch.
+  PDF.js prepares two adjacent pages, with visible pages retaining priority
+  and its normal bounded canvas cache. GPU flags and drivers are unchanged.
 
-The preview is plain text, preserving whitespace and displaying markup literally.
-It reads at most 8193 bytes on hover and shows at most 4000 UTF-16 code units.
-Empty files and read errors have explicit messages. The full text opens on click;
-page Markdown links keep their existing semantics. No graph migration or changes
-to note contents are needed.
+TXT previews preserve whitespace and display markup literally. Both TXT and
+Markdown previews read at most 8193 bytes on hover and use at most 4000 UTF-16
+code units.
+Empty files and read errors have explicit messages. The full text opens on click.
+Indexed Markdown page links keep native page navigation and hover. No graph
+migration or changes to note contents are needed.
 
 Build or run without switching the system (close the existing Logseq instance
 before launching the new one):
@@ -48,5 +60,8 @@ nix shell .#nixosConfigurations.desktop.pkgs.unstable.electron_43 -c \
 The first test checks the native-opening fallback with a stubbed shell boundary.
 The UI test launches the actual packaged Logseq with separate home/profile paths
 and a temporary graph under `/tmp`. It checks hover, empty/missing files, literal
-markup, special filenames, full text and the PDF viewer, and saves screenshots.
+markup, special filenames, full text, Markdown attachment/page previews,
+application/PDF theme changes, manual overrides and preparation of subsequent
+PDF pages before scrolling. It saves screenshots; `--pdf-only` selects the
+PDF cases. This verifies preparation, not a guaranteed frame rate for all PDFs.
 User notes and the regular Logseq profile are not used.

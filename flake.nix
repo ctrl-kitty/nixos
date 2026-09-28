@@ -99,6 +99,7 @@
                 patches = (oldAttrs.patches or [ ]) ++ [
                   ./pkgs/logseq-og/open-local-files.patch
                   ./pkgs/logseq-og/preview-local-files.patch
+                  ./pkgs/logseq-og/fix-previews-and-pdf.patch
                 ];
               });
             ayugram-desktop = final.unstable.ayugram-desktop;

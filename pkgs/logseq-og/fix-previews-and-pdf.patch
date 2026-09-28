@@ -1,0 +1,174 @@
+--- a/src/main/frontend/components/block.cljs
++++ b/src/main/frontend/components/block.cljs
+@@ -371,6 +371,8 @@
+            :controls true
+            :on-touch-start #(util/stop %)}])
+ 
++(declare text-file-preview-trigger)
++
+ (rum/defcs asset-link < rum/reactive
+   (rum/local nil ::src)
+   [state config title href metadata full_text]
+@@ -407,11 +409,15 @@
+                         #(resizable-image config title @src metadata full_text true))
+ 
+           (contains? (gp-config/text-formats) ext)
+-          [:a.asset-ref.is-plaintext {:href (rfe/href :file {:path path})
+-                                      :on-click (fn [_event]
+-                                                  (p/let [result (fs/read-file repo-dir path)]
+-                                                    (db/set-file-content! repo path result)))}
+-           title]
++          (let [link [:a.asset-ref.is-plaintext
++                      {:href (rfe/href :file {:path path})
++                       :on-click (fn [_event]
++                                   (p/let [result (fs/read-file repo-dir path)]
++                                     (db/set-file-content! repo path result)))}
++                      title]]
++            (if (and (util/electron?) (contains? #{:txt :md :markdown} ext))
++              (text-file-preview-trigger path link)
++              link))
+ 
+           (= ext :pdf)
+           [:a.asset-ref.is-pdf {:href @src
+@@ -1098,6 +1104,13 @@
+        (nil? result) (ui/loading)
+        error [:div.opacity-70 "Unable to read this file."]
+        (= text "") [:div.opacity-70 "Empty file"]
++       (contains? #{"md" "markdown"} (util/get-file-ext file-path))
++       [:div.markdown-file-preview.content
++        {:style {:max-height 320 :overflow-y "auto" :overflow-wrap "anywhere"}
++         :dangerouslySetInnerHTML
++         {:__html (security/sanitize-html
++                   (mldoc/export "html" text (gp-mldoc/default-config :markdown)
++                                 gp-mldoc/default-references))}}]
+        :else [:pre.text-sm
+               {:style {:white-space "pre-wrap" :overflow-wrap "anywhere"
+                        :max-height 320 :overflow-y "auto" :margin 0}}
+@@ -1130,7 +1143,7 @@
+                                (util/stop event)
+                                (rfe/push-state :file {:path file-path}))}
+                   label]]
+-        (if (= ext :txt)
++        (if (contains? #{:txt :md :markdown} ext)
+           (text-file-preview-trigger file-path link)
+           link))
+ 
+@@ -1251,11 +1264,21 @@
+           (if (show-link? config metadata href full_text)
+             (media-link config url href label metadata full_text)
+             (let [redirect-page-name (when (string? path) (text/get-page-name path))
+-                  config (assoc config :redirect-page-name redirect-page-name)
+                   label-text (get-label-text label)
+-                  page (if (string/blank? label-text)
+-                         {:block/name (db/get-file-page (string/replace href "file:" "") false)}
+-                         (get-page label))
++                  ;; A Markdown attachment can have a phantom page named after
++                  ;; its link label. Only indexed graph files are page links.
++                  file-page (when (util/electron?)
++                              (db/get-file-page
++                               (.relative util/node-path
++                                          (config/get-repo-dir (state/get-current-repo))
++                                          (relative-assets-path->absolute-path href)) false))
++                  config (cond-> (assoc config :redirect-page-name redirect-page-name)
++                           (and file-page (seq label-text)) (assoc :label label-text))
++                  page (if (util/electron?)
++                         (when file-page (db/entity [:block/name file-page]))
++                         (if (string/blank? label-text)
++                           {:block/name (db/get-file-page (string/replace href "file:" "") false)}
++                           (get-page label)))
+                   show-brackets? (state/show-brackets?)]
+               (if (and page
+                        (when-let [ext (util/get-file-ext href)]
+--- a/src/main/frontend/extensions/pdf/core.cljs
++++ b/src/main/frontend/extensions/pdf/core.cljs
+@@ -738,6 +738,14 @@
+                                     :removePageBorders true})
+              in-system-win?   (boolean (.closest el ".is-system-window"))]
+ 
++         ;; PDF.js supports rendering a second adjacent page. Keep its normal
++         ;; visible-page priority, cancellation and bounded canvas cache.
++         (let [^js queue (.-renderingQueue viewer)
++               get-priority (.-getHighestPriority queue)]
++           (set! (.-getHighestPriority queue)
++                 (fn [visible views scroll-ahead? _extra?]
++                   (.call get-priority queue visible views scroll-ahead? true))))
++
+          (set! (.-$groupIdentity viewer) identity)
+          (set! (.-$inSystemWindow viewer) in-system-win?)
+          (. link-service setDocument pdf-document)
+--- a/src/main/frontend/extensions/pdf/toolbar.cljs
++++ b/src/main/frontend/extensions/pdf/toolbar.cljs
+@@ -4,7 +4,7 @@
+             [frontend.context.i18n :refer [t]]
+             [rum.core :as rum]
+             [promesa.core :as p]
+-            [frontend.rum :refer [use-atom]]
++            [frontend.rum :refer [use-atom use-atom-fn]]
+             [frontend.state :as state]
+             [frontend.util :as util]
+             [frontend.storage :as storage]
+@@ -82,9 +82,12 @@
+       [:div.extensions__pdf-settings-item.theme-picker
+        (map (fn [it]
+               [:button.flex.items-center.justify-center
+-               {:key it :class it :on-click #(select-theme! it)}
+-               (when (= theme it) (svg/check))])
+-            ["light", "warm", "dark"])]
++               {:key it :class it :on-click #(select-theme! it)
++                :title (if (= it "auto") "Follow application theme" it)
++                :aria-label (if (= it "auto") "Follow application theme" it)
++                :aria-pressed (= theme it)}
++               (if (= it "auto") "Auto" (when (= theme it) (svg/check)))])
++            ["auto", "light", "warm", "dark"])]
+       [:div.extensions__pdf-settings-item.toggle-input
+        [:label (t :pdf/toggle-dashed)]
+        (ui/toggle area-dashed? #(set-area-dashed? (not area-dashed?)) true)]
+@@ -455,7 +458,9 @@
+         *page-ref         (rum/use-ref nil)
+         [current-page-num, set-current-page-num!] (rum/use-state 1)
+         [total-page-num, set-total-page-num!] (rum/use-state 1)
+-        [viewer-theme, set-viewer-theme!] (rum/use-state (or (storage/get "ls-pdf-viewer-theme") "light"))
++        [viewer-theme, set-viewer-theme!] (rum/use-state (or (storage/get "ls-pdf-viewer-theme-mode") "auto"))
++        [app-theme]       (use-atom-fn state/state :ui/theme #(assoc %1 :ui/theme %2))
++        effective-theme   (if (= viewer-theme "auto") app-theme viewer-theme)
+         group-id          (.-$groupIdentity viewer)
+         in-system-window? (.-$inSystemWindow viewer)
+         doc               (pdf-windows/resolve-own-document viewer)]
+@@ -464,10 +469,12 @@
+     (rum/use-effect!
+      (fn []
+        (when-let [^js el (some-> doc (.getElementById (str "pdf-layout-container_" group-id)))]
+-         (set! (. (. el -dataset) -theme) viewer-theme)
+-         (storage/set "ls-pdf-viewer-theme" viewer-theme)
++         (set! (. (. el -dataset) -theme) effective-theme)
++         ;; A separate key avoids treating the old automatically persisted
++         ;; default "light" as an explicit user override.
++         (storage/set "ls-pdf-viewer-theme-mode" viewer-theme)
+          #(js-delete (. el -dataset) "theme")))
+-     [viewer-theme])
++     [viewer-theme effective-theme])
+ 
+     ;; export page state
+     (rum/use-effect!
+--- a/src/main/frontend/extensions/pdf/pdf.css
++++ b/src/main/frontend/extensions/pdf/pdf.css
+@@ -302,6 +302,19 @@
+             border-color: #a3a3a3;
+           }
+ 
++          &.auto {
++            width: auto;
++            padding: 0 8px;
++            border-radius: 6px;
++            font-size: 12px;
++            color: var(--ls-primary-text-color);
++            background-color: var(--ls-primary-background-color);
++
++            &[aria-pressed=true] {
++              border-color: var(--ls-link-text-color);
++            }
++          }
++
+           &.warm {
+             background-color: #f9efdb;
+           }
