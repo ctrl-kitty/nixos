@@ -20,7 +20,7 @@
     };
     stylix = {
       url = "github:nix-community/stylix/release-26.05";
-	  inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     burpsuitepro = {
       url = "github:xiv3r/Burpsuite-Professional/main";
@@ -63,56 +63,66 @@
     let
       pkgsConfig = {
         config.allowUnfree = true;
-		config.android_sdk.accept_license = true;
+        config.android_sdk.accept_license = true;
         overlays = [
           (final: prev: {
-            unstable = (import nixpkgs-unstable {
-              config.allowUnfree = true;
-			  config.android_sdk.accept_license = true;
-              system = final.stdenv.hostPlatform.system;
-            }).extend (unstable-final: unstable-prev: {
-              unityhub = unstable-prev.unityhub.override {
-                # Unity 6000.6's shader compiler needs libtinfo.so.6 in the FHS environment.
-                extraLibs = pkgs: [ pkgs.ncurses ];
-                buildFHSEnv = args: unstable-final.buildFHSEnv (args // {
-                  profile = (args.profile or "") + ''
-                    # ldconfig does not index ncurses' libtinfo compatibility symlink.
-                    export LD_LIBRARY_PATH="/usr/lib64''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-                  '';
-                });
-              };
-              ayugram-desktop = unstable-final.symlinkJoin {
-                name = "ayugram-desktop-wayland";
-                paths = [ unstable-prev.ayugram-desktop ];
-                buildInputs = [ unstable-final.makeWrapper ];
-                postBuild = ''
-                  wrapProgram $out/bin/AyuGram \
-                    --set QT_QPA_PLATFORM wayland \
-                    --set QT_QPA_PLATFORMTHEME xdgdesktopportal \
-                    --set QT_WAYLAND_CLIENT_BUFFER_INTEGRATION linux-dmabuf
+            unstable =
+              (import nixpkgs-unstable {
+                config.allowUnfree = true;
+                config.android_sdk.accept_license = true;
+                system = final.stdenv.hostPlatform.system;
+              }).extend
+                (
+                  unstable-final: unstable-prev: {
+                    unityhub = unstable-prev.unityhub.override {
+                      # Unity 6000.6's shader compiler needs libtinfo.so.6 in the FHS environment.
+                      extraLibs = pkgs: [ pkgs.ncurses ];
+                      buildFHSEnv =
+                        args:
+                        unstable-final.buildFHSEnv (
+                          args
+                          // {
+                            profile = (args.profile or "") + ''
+                              # ldconfig does not index ncurses' libtinfo compatibility symlink.
+                              export LD_LIBRARY_PATH="/usr/lib64''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+                            '';
+                          }
+                        );
+                    };
+                    ayugram-desktop = unstable-final.symlinkJoin {
+                      name = "ayugram-desktop-wayland";
+                      paths = [ unstable-prev.ayugram-desktop ];
+                      buildInputs = [ unstable-final.makeWrapper ];
+                      postBuild = ''
+                        wrapProgram $out/bin/AyuGram \
+                          --set QT_QPA_PLATFORM wayland \
+                          --set QT_QPA_PLATFORMTHEME xdgdesktopportal \
+                          --set QT_WAYLAND_CLIENT_BUFFER_INTEGRATION linux-dmabuf
 
-                  rm $out/share/applications/com.ayugram.desktop.desktop
-                  substitute ${unstable-prev.ayugram-desktop}/share/applications/com.ayugram.desktop.desktop \
-                    $out/share/applications/com.ayugram.desktop.desktop \
-                    --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
-                '';
-              };
-            });
+                        rm $out/share/applications/com.ayugram.desktop.desktop
+                        substitute ${unstable-prev.ayugram-desktop}/share/applications/com.ayugram.desktop.desktop \
+                          $out/share/applications/com.ayugram.desktop.desktop \
+                          --replace-fail 'DBusActivatable=true' 'DBusActivatable=false'
+                      '';
+                    };
+                  }
+                );
             unityhub = final.unstable.unityhub;
             burpsuitepro = burpsuitepro.packages.${final.stdenv.hostPlatform.system}.default;
             anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
             libayatana-ido = final.callPackage ./pkgs/libayatana-ido.nix { };
             flclashx = final.callPackage ./pkgs/flclashx.nix { };
             proton-game = final.callPackage ./pkgs/proton-game { };
-            logseq-og = (final.unstable.callPackage
-              "${inputs.logseq-nixpkgs}/pkgs/by-name/lo/logseq-og/package.nix"
-              { }).overrideAttrs (oldAttrs: {
-                patches = (oldAttrs.patches or [ ]) ++ [
-                  ./pkgs/logseq-og/open-local-files.patch
-                  ./pkgs/logseq-og/preview-local-files.patch
-                  ./pkgs/logseq-og/fix-previews-and-pdf.patch
-                ];
-              });
+            logseq-og =
+              (final.unstable.callPackage "${inputs.logseq-nixpkgs}/pkgs/by-name/lo/logseq-og/package.nix" { })
+              .overrideAttrs
+                (oldAttrs: {
+                  patches = (oldAttrs.patches or [ ]) ++ [
+                    ./pkgs/logseq-og/open-local-files.patch
+                    ./pkgs/logseq-og/preview-local-files.patch
+                    ./pkgs/logseq-og/fix-previews-and-pdf.patch
+                  ];
+                });
             ayugram-desktop = final.unstable.ayugram-desktop;
           })
         ];
