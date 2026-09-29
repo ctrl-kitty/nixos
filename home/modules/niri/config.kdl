@@ -52,6 +52,12 @@ window-rule {
 }
 
 window-rule {
+    match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
+    default-floating-position x=0 y=0 relative-to="bottom-right"
+    open-focused false
+}
+
+window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
 }
