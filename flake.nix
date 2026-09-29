@@ -71,6 +71,16 @@
 			  config.android_sdk.accept_license = true;
               system = final.stdenv.hostPlatform.system;
             }).extend (unstable-final: unstable-prev: {
+              unityhub = unstable-prev.unityhub.override {
+                # Unity 6000.6's shader compiler needs libtinfo.so.6 in the FHS environment.
+                extraLibs = pkgs: [ pkgs.ncurses ];
+                buildFHSEnv = args: unstable-final.buildFHSEnv (args // {
+                  profile = (args.profile or "") + ''
+                    # ldconfig does not index ncurses' libtinfo compatibility symlink.
+                    export LD_LIBRARY_PATH="/usr/lib64''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+                  '';
+                });
+              };
               ayugram-desktop = unstable-final.symlinkJoin {
                 name = "ayugram-desktop-wayland";
                 paths = [ unstable-prev.ayugram-desktop ];
@@ -88,6 +98,7 @@
                 '';
               };
             });
+            unityhub = final.unstable.unityhub;
             burpsuitepro = burpsuitepro.packages.${final.stdenv.hostPlatform.system}.default;
             anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
             libayatana-ido = final.callPackage ./pkgs/libayatana-ido.nix { };
