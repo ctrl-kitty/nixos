@@ -121,6 +121,7 @@
                     ./pkgs/logseq-og/open-local-files.patch
                     ./pkgs/logseq-og/preview-local-files.patch
                     ./pkgs/logseq-og/fix-previews-and-pdf.patch
+                    ./pkgs/logseq-og/edit-read-mode.patch
                   ];
                 });
             ayugram-desktop = final.unstable.ayugram-desktop;

@@ -23,6 +23,15 @@ compatibility patch:
   `light` preference is replaced by Auto on the first run of this patch.
   PDF.js prepares two adjacent pages, with visible pages retaining priority
   and its normal bounded canvas cache. GPU flags and drivers are unchanged.
+- `edit-read-mode.patch`: separates note interaction into Read Mode and Edit Mode
+  with hotkey toggle (`Ctrl+Shift+E` / `Cmd+Shift+E` or `t e`).
+  - Read Mode: the clean Markdown outliner view without visible Markdown syntax
+    symbols (`#`, `**`, `[[`, etc.). Notes can still be edited via blocks.
+  - Edit Mode: raw text view of the underlying `.md` file in CodeMirror without
+    hiding syntax under the Markdown renderer. Edits are auto-saved and synced
+    to the database with disk conflict suppression.
+  - Added "Read Mode" button on the file view and "Toggle edit / read mode" in the
+    page menu.
 
 TXT previews preserve whitespace and display markup literally. Both TXT and
 Markdown previews read at most 8193 bytes on hover and use at most 4000 UTF-16
@@ -54,6 +63,9 @@ nix shell .#nixosConfigurations.desktop.pkgs.unstable.electron_43 -c \
   /tmp/logseq-og-preview/share/logseq-og/resources/app/js/preload.js
 nix shell .#nixosConfigurations.desktop.pkgs.unstable.electron_43 -c \
   electron pkgs/logseq-og/test-attachment-ui.cjs \
+  /tmp/logseq-og-preview/share/logseq-og/resources/app
+nix shell .#nixosConfigurations.desktop.pkgs.unstable.electron_43 -c \
+  electron pkgs/logseq-og/test-mode-toggle.cjs \
   /tmp/logseq-og-preview/share/logseq-og/resources/app
 ```
 
