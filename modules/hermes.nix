@@ -36,6 +36,7 @@
       ripgrep
       fd
       python3
+	  uv
       nodejs_22
     ];
 
@@ -43,44 +44,51 @@
       provider = "custom";
       custom_providers = [
         {
-          name = "test";
+          name = "custom";
           base_url = "http://127.0.0.1:20128/v1";
+		  key_env = "OPENAI_API_KEY";
         }
       ];
       model = {
         provider = "custom";
         base_url = "http://127.0.0.1:20128/v1";
-        default = "agy/gemini-3.8-flash-high";
+        default = "antigravity/gemini-3.8-flash-tiered";
         supports_vision = true;
       };
       agent = {
         reasoning_effort = "xhigh";
-        image_input_mode = "native";
+        image_input_mode = "auto";
       };
       auxiliary = {
         vision = {
           provider = "custom";
-          model = "agy/gemini-3.8-flash-high";
+          model = "antigravity/gemini-3.8-flash-tiered";
           base_url = "http://127.0.0.1:20128/v1";
         };
         web_extract = {
           provider = "custom";
-          model = "agy/gemini-3.8-flash-high";
+          model = "antigravity/gemini-3.8-flash-tiered";
           base_url = "http://127.0.0.1:20128/v1";
         };
         compression = {
           provider = "custom";
-          model = "agy/gemini-3.8-flash-high";
+          model = "antigravity/gemini-3.8-flash-tiered";
           base_url = "http://127.0.0.1:20128/v1";
         };
         title_generation = {
           provider = "custom";
-          model = "agy/gemini-3.8-flash-high";
+          model = "antigravity/gemini-3.8-flash-tiered";
           base_url = "http://127.0.0.1:20128/v1";
         };
       };
       telegram.proxy = "http://127.0.0.1:2080";
       toolsets = [ "all" ];
+	  mcp_servers = {
+        blender = {
+          command = "uvx";
+          args = [ "mcp-for-blender" ];
+        };
+      };
       plugins.enabled = [ "omniroute" ];
       image_gen = {
         provider = "omniroute";
