@@ -1,7 +1,7 @@
-[Default Applications]
-x-scheme-handler/discord=vesktop.desktop
-x-scheme-handler/claude-cli=claude-code-url-handler.desktop
-
 [Added Associations]
+image/png=qimgv.desktop;
 
-[Removed Associations]
+[Default Applications]
+image/png=qimgv.desktop;
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/discord=vesktop.desktop

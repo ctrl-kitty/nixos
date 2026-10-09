@@ -46,8 +46,23 @@ the accessibility menu.
 
 The desktop's GDM monitor layout is defined in `hosts/desktop/graphics.nix`:
 the right 4K monitor is primary at 100 Hz / 150%, and the left 1080p monitor runs
-at 60 Hz / 100%, with their bottom edges aligned. GDM uses its own `monitors.xml`
-in logical coordinates; Niri's existing output configuration is separate.
+at 60 Hz / 100%, with their bottom edges aligned. Current connections are `DP-2`
+(MQ2719-B) and `HDMI-A-2` (PHL 243V7). GDM uses its own `monitors.xml` in logical
+coordinates and matches connector names as well as monitor identities; update
+its connectors after moving cables. Niri's separate
+`home/modules/niri/desktop-outputs.kdl` matches monitor identities only, so its
+layout follows port changes and the 4K monitor receives focus at startup.
+
+The MQ2719-B can stay black after boot even while the GPU reports it active;
+lowering the refresh rate to 60 Hz did not resolve this. On the desktop, GDM
+now runs `hosts/desktop/gdm_monitor_wake.py` once when its compositor starts.
+It disables only that monitor for three seconds, then restores its mode,
+scaling, position and primary status. The Philips remains active. This repeats
+the software reconnect that recovered a live black screen without using the
+monitor's power button. The helper uses temporary Mutter configurations,
+matches the monitor's identity, and skips the cycle if no other display is
+active. It is a startup workaround; its effect across GDM and Niri still needs
+confirmation after applying the configuration and rebooting.
 
 `modules/graphic/niri.nix` pins xwayland-satellite to the upstream commit that
 merged [the Steam and Unity popup-focus fix](https://github.com/Supreeeme/xwayland-satellite/pull/494).
@@ -83,6 +98,10 @@ prun --list                             # List candidates without launching
 prun --dry-run                          # Choose and inspect the launch command
 prun --exe 'Retail/My Game.exe' -- -windowed
 prun --proton '/path/to/GE-Proton' --log
+prun --list-prefixes                     # Show existing prefixes, matching names first
+prun --choose-prefix                    # Change a remembered choice
+prun --new-prefix                       # Create a separate prefix
+prun --game-name 'My Game'               # Help match an unusually named release
 ```
 
 The launcher prefers installed Proton Experimental, then Hotfix, then other
@@ -92,12 +111,37 @@ for NixOS. Install Proton and its runtime through Steam first; `--proton` or
 `PROTON_PATH` selects a particular build. `STEAM_DIR` and `STEAM_RUNTIME_PATH`
 override discovery. This does not guarantee compatibility with every game.
 
-Each directory gets its own `.proton/` data directory, compatible with the earlier
-per-game launcher. Always start from the same game root to reuse saves/settings;
-`--prefix PATH` or `STEAM_COMPAT_DATA_PATH` overrides that location. The selected
-executable runs with its own parent directory as the working directory. `--appid`
-sets a Steam app ID for title-specific Proton fixes; otherwise `SteamAppId` or `0`
-is used. Proton options from the environment, including Wayland/HDR/NTSYNC
+New prefixes live under `~/.local/share/proton-game/prefixes/` (or
+`$XDG_DATA_HOME/proton-game/prefixes/`), so deleting a game installation keeps its
+prefix. Start from each game's root. On the first launch from a new directory,
+the prefix chooser suggests previously used prefixes with matching game names;
+you can accept one, create a separate prefix, or select another known prefix.
+The choice is remembered for subsequent launches. History is stored as JSON
+under `~/.local/share/proton-game/history/` (also respecting `XDG_DATA_HOME`).
+
+Matching ignores case and common separators, and recognizes suffixes such as
+`GAME_v1`/`GAME_v2`, `Game 1.2.3`, `[v1.2.3]`, `v1.0-beta.2`, `Build 123`,
+`r52`, `Patch 1`, `Update 7`, and dates like `2026-10-05` or `20261005`.
+It also handles version suffixes followed by `GOG`, `Steam`, `Portable`, or
+`FitGirl Repack`/`DODI Repack`. Plain title numbers stay significant: `Game 2`
+and `Game 3`, or `Cyberpunk 2077`, are preserved. These are name suggestions;
+check the title before choosing. Use `--game-name NAME` or `--choose-prefix`
+for names the helper cannot recognize.
+
+Existing `.proton/` directories continue to work and are also discovered in
+neighboring game folders. They are reused in place; keep the old folder while
+using its prefix. Previously used shared or custom prefixes are discoverable
+through history even when the old game folder is gone. `--prefix PATH` or
+`STEAM_COMPAT_DATA_PATH` selects an explicit location; `--new-prefix` and
+`--choose-prefix` take precedence over that environment variable. Without a
+terminal, matching an older version requires `--prefix PATH` or `--new-prefix`.
+`--list-prefixes` needs neither Steam nor a game executable. `--dry-run` and
+cancellation create neither a prefix nor history.
+
+The selected executable runs with its own parent directory as the working
+directory. `--appid` sets a Steam app ID for title-specific Proton fixes;
+otherwise `SteamAppId` or `0` is used. Proton options from the environment,
+including Wayland/HDR/NTSYNC
 settings, pass through unchanged. `--log` enables `steam-<appid>.log` in the game
 root (or `PROTON_LOG_DIR` when set).
 

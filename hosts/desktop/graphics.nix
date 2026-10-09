@@ -2,10 +2,18 @@
 {
   # GDM runs a separate Mutter compositor and does not read Niri's outputs.
   # Keep this file scoped to its greeter, including GNOME 50's transient users.
-  systemd.user.services."org.gnome.Shell@gdm".serviceConfig.Environment = [
-    "XDG_CONFIG_DIRS=/etc/xdg/gdm:/etc/xdg"
-  ];
+  systemd.user.services."org.gnome.Shell@gdm".serviceConfig = {
+    Environment = [ "XDG_CONFIG_DIRS=/etc/xdg/gdm:/etc/xdg" ];
+    # The MQ2719-B can remain black despite an active, healthy DP link.
+    # A 3-second output off/on cycle recovered it in a live failure test.
+    # Run after Mutter is ready; ignore helper errors so GDM can still start.
+    ExecStartPost = [
+      "-${pkgs.python3}/bin/python3 ${./gdm_monitor_wake.py} ${pkgs.systemd}/bin/busctl"
+    ];
+  };
   # GNOME 50 supports fractional scaling without the retired experimental flag.
+  # Unlike Niri's identity-only matching, Mutter also matches the connector.
+  # Current wiring: MQ2719-B on DP-2, PHL 243V7 on HDMI-A-2.
   environment.etc."xdg/gdm/monitors.xml".text = ''
     <monitors version="2">
       <policy>
@@ -20,7 +28,7 @@
           <primary>yes</primary>
           <monitor>
             <monitorspec>
-              <connector>DP-1</connector>
+              <connector>DP-2</connector>
               <vendor>XYM</vendor>
               <product>MQ2719-B</product>
               <serial>0000000000000</serial>
@@ -38,7 +46,7 @@
           <scale>1</scale>
           <monitor>
             <monitorspec>
-              <connector>HDMI-A-1</connector>
+              <connector>HDMI-A-2</connector>
               <vendor>PHL</vendor>
               <product>PHL 243V7</product>
               <serial>0x00001ae7</serial>
