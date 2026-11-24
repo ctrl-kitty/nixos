@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs?ref=master";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
     # PR #516682: Markdown-based Logseq OG with Electron 40+ plugin fixes.
     logseq-nixpkgs = {
@@ -49,6 +50,7 @@
     {
       nixpkgs,
       nixpkgs-unstable,
+      nixpkgs-master,
       anirust,
       home-manager,
       nixvim,
@@ -66,6 +68,10 @@
         config.android_sdk.accept_license = true;
         overlays = [
           (final: prev: {
+            master = import nixpkgs-master {
+              config.allowUnfree = true;
+              system = final.stdenv.hostPlatform.system;
+            };
             unstable =
               (import nixpkgs-unstable {
                 config.allowUnfree = true;

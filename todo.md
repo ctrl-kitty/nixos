@@ -6,5 +6,5 @@
 
 # Noctalia
 1. I don't like current buttons in notifications (actions hidden for now via show_actions=false)
-2. Set up clipboard manager
+2. [x] Clipboard history with images: Meta+V opens Noctalia
 3. Calendar events!!!!!! (Love it)

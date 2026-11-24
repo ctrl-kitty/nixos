@@ -160,6 +160,29 @@ nix build path:.#proton-game
 
 ## Desktop applications and file associations
 
+### Clipboard history
+
+On both hosts, **Meta+V** opens Noctalia's clipboard history. It captures
+text and images, shows image previews, and keeps up to 100 unpinned entries.
+Click an entry or select it and press Enter to restore it to the clipboard and
+paste it into the previously focused application using Ctrl+V. WezTerm's
+configured Ctrl+V binding also pastes from the clipboard.
+Copied content remains available after its source application closes.
+
+The local `clipboard-single-click-paste.patch` makes one click activate the
+clicked item when auto-paste is enabled. With auto-paste disabled, clicking
+an unselected item still previews it first.
+
+**Meta+Ctrl+V** toggles whether a window floats. **Meta+Shift+V** switches
+focus between floating and tiled windows.
+
+History is private local state, outside this repository. Configure its defaults
+in `home/modules/noctalia/default.nix` and the shortcut in
+`home/modules/niri/config.kdl`. These changes take effect on the next
+configuration activation.
+
+### File associations
+
 Both hosts use Dolphin (`Super+E`) and Kate. LibreOffice remains installed for
 office documents. Default file handlers are defined in
 `modules/graphic/file-associations.nix`:

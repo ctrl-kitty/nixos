@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+ networking.extraHosts = "172.30.0.10 gitlab.lab registry.lab keycloak.lab jira.lab meowsoc.lab";
   imports = [
     ./modules/default.nix
     ./home/default.nix

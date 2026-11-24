@@ -4,7 +4,7 @@
   home-manager = {
     backupFileExtension = "hmbackup";
     extraSpecialArgs = {
-      inherit flakeHost;
+      inherit inputs flakeHost;
     };
     users.ktvsky = {
       imports = [

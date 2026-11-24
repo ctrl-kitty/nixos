@@ -89,7 +89,7 @@
     steam-run
     uv
     godot
-    unstable.claude-code
+    master.claude-code
     unstable.codex
     mpv
     tor-browser
@@ -106,6 +106,7 @@
     distrobox
     ffmpeg
     yt-dlp
+    python3
 
     # music player
     kdePackages.elisa
@@ -113,6 +114,9 @@
     pinta
     # unstable.pkgName
     rustup
-	python314
+    go
+    chromium
+    python314
+
   ];
 }
