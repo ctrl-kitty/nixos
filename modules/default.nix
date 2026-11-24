@@ -117,6 +117,6 @@
     go
     chromium
     python314
-
+    rainfrog
   ];
 }
