@@ -1,0 +1,19 @@
+diff --git a/src/shell/clipboard/clipboard_panel.cpp b/src/shell/clipboard/clipboard_panel.cpp
+--- a/src/shell/clipboard/clipboard_panel.cpp
++++ b/src/shell/clipboard/clipboard_panel.cpp
+@@ -658,11 +658,12 @@ void ClipboardPanel::create() {
+   );
+   m_listAdapter->setFilteredIndices(&m_filteredIndices);
+   m_listAdapter->setOnActivate([this](std::size_t index) {
+-    if (m_selectedIndex == index) {
++    const bool activate = m_selectedIndex == index
++        || (m_config != nullptr && m_config->config().shell.clipboardAutoPaste != ClipboardAutoPasteMode::Off);
++    selectIndex(index);
++    if (activate) {
+       activateSelected();
+-      return;
+     }
+-    selectIndex(index);
+   });
+
+   sidebar->addChild(

@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -9,6 +10,9 @@
   programs.noctalia = {
     enable = true;
     systemd.enable = true;
+    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+      patches = (old.patches or [ ]) ++ [ ./clipboard-single-click-paste.patch ];
+    });
 
     settings = {
       audio = {
@@ -91,6 +95,17 @@
         app_icon_colorize = true;
         polkit_agent = true;
         launch_apps_as_systemd_services = true;
+
+        # Noctalia captures text and images directly through Wayland data control.
+        clipboard_enabled = true;
+        clipboard_history_max_entries = 100;
+        clipboard_keep_from_closed_apps = true;
+        # Ctrl+V works for desktop apps, images, and our WezTerm paste binding.
+        clipboard_auto_paste = "ctrl_v";
+        panel = {
+          clipboard_placement = "floating";
+          clipboard_position = "center";
+        };
       };
 
       theme = {

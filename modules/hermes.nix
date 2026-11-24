@@ -41,44 +41,50 @@
     ];
 
     settings = {
-      provider = "custom";
+      provider = "custom:a6api";
       custom_providers = [
         {
           name = "custom";
           base_url = "http://127.0.0.1:20128/v1";
 		  key_env = "OPENAI_API_KEY";
         }
+        # OpenAI-совместимый шлюз; ключ: A6API_KEY в hermes-env (sops)
+        {
+          name = "a6api";
+          base_url = "https://api.a6api.vip/v1";
+          key_env = "A6API_KEY";
+        }
       ];
       model = {
-        provider = "custom";
-        base_url = "http://127.0.0.1:20128/v1";
-        default = "antigravity/gemini-3.8-flash-tiered";
+        provider = "custom:a6api";
+        base_url = "https://api.a6api.vip/v1";
+        default = "claude-opus-5-5";
         supports_vision = true;
       };
       agent = {
-        reasoning_effort = "xhigh";
+        reasoning_effort = "medium";
         image_input_mode = "auto";
       };
       auxiliary = {
         vision = {
-          provider = "custom";
-          model = "antigravity/gemini-3.8-flash-tiered";
-          base_url = "http://127.0.0.1:20128/v1";
+          provider = "custom:a6api";
+          model = "claude-opus-5-5";
+          base_url = "https://api.a6api.vip/v1";
         };
         web_extract = {
-          provider = "custom";
-          model = "antigravity/gemini-3.8-flash-tiered";
-          base_url = "http://127.0.0.1:20128/v1";
+          provider = "custom:a6api";
+          model = "claude-opus-5-5";
+          base_url = "https://api.a6api.vip/v1";
         };
         compression = {
-          provider = "custom";
-          model = "antigravity/gemini-3.8-flash-tiered";
-          base_url = "http://127.0.0.1:20128/v1";
+          provider = "custom:a6api";
+          model = "claude-opus-5-5";
+          base_url = "https://api.a6api.vip/v1";
         };
         title_generation = {
-          provider = "custom";
-          model = "antigravity/gemini-3.8-flash-tiered";
-          base_url = "http://127.0.0.1:20128/v1";
+          provider = "custom:a6api";
+          model = "claude-opus-5-5";
+          base_url = "https://api.a6api.vip/v1";
         };
       };
       telegram.proxy = "http://127.0.0.1:2080";
