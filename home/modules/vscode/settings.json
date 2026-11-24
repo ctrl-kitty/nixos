@@ -35,4 +35,5 @@
   "python.languageServer": "Pylance",
   "python.analysis.autoFormatStrings": true,
   "workbench.colorTheme": "Dark Modern",
+  "claudeCode.preferredLocation": "panel",
 }

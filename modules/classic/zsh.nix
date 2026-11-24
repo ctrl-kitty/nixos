@@ -1,10 +1,31 @@
 { pkgs, flakeHost, ... }:
 
+let
+  # Claude Code pointed at the Kimi Code subscription endpoint.
+  # The key is read from sops at runtime so it never lands in the nix store.
+  kimiModel = "k3.1-pro";
+  kimiSettings = pkgs.writeText "claude-kimi-settings.json" (builtins.toJSON {
+    env = {
+      ANTHROPIC_BASE_URL = "https://api.kimi.ai/coding/";
+      ANTHROPIC_MODEL = kimiModel;
+      ANTHROPIC_DEFAULT_OPUS_MODEL = kimiModel;
+      ANTHROPIC_DEFAULT_SONNET_MODEL = kimiModel;
+      ANTHROPIC_DEFAULT_HAIKU_MODEL = kimiModel;
+      ANTHROPIC_DEFAULT_FABLE_MODEL = kimiModel;
+      CLAUDE_CODE_SUBAGENT_MODEL = kimiModel;
+      CLAUDE_CODE_AUTO_COMPACT_WINDOW = "262144";
+      CLAUDE_CODE_MAX_CONTEXT_TOKENS = "262144";
+      CLAUDE_CODE_EFFORT_LEVEL = "max";
+    };
+  });
+in
 {
   imports = [
     ./starship.nix
     ./git.nix
   ];
+  sops.secrets."moonshot-api-key".owner = "ktvsky";
+
   environment.systemPackages = with pkgs; [
     eza # Modern ls replacement
     ripgrep # Fast grep alternative
@@ -50,6 +71,7 @@
 
       #      opencode = "export HTTPS_PROXY=http://127.0.0.1:2080 && steam-run opencode"; # opencode not statically linked yet
       opencode = "steam-run opencode";
+      kimi = "ANTHROPIC_API_KEY=$(cat /run/secrets/moonshot-api-key) claude --settings ${kimiSettings}";
       #     equibop = "export HTTPS_PROXY=http://127.0.0.1:2080 && equibop";
       find = "fd";
       du = "dust";

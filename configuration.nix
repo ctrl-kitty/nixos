@@ -13,7 +13,13 @@
   ];
   # -5.8s boot time
   systemd.services.NetworkManager-wait-online.enable = false;
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+	plugins = with pkgs; [
+      networkmanager-openconnect
+    ];
+
+  };
   networking.proxy.httpsProxy = "http://127.0.0.1:2080";
   networking.hosts = {
     "127.0.0.1" = [ "host.docker.internal" ];

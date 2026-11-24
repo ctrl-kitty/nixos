@@ -11,6 +11,12 @@
     systemd.enable = true;
 
     settings = {
+      plugins = {
+        # Format: "<source>/<plugin-id>"
+        enabled = [
+          "andrewdems/vpn-manager"
+        ];
+      };
       audio = {
         enable_overdrive = true;
       };

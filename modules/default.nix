@@ -68,34 +68,35 @@
     # (unstable.ghidra.withExtensions (p: with p; [ unstable.ghidra-extensions.wasm ]))
     gajim
     qbittorrent
-	unstable.opencode
+    unstable.opencode
     gcc
     nodejs_24
     tree
     tun2proxy
     psmisc
     android-tools
-	unstable.wechat-uos
+    unstable.wechat-uos
     #  opencode # 4 gb trash??
     #    obs-studio
     anirust
     libreoffice-qt6-fresh # 1.5 gb
     git
-	unstable.unityhub
-	unstable.blender
+    unstable.unityhub
+    unstable.blender
     wget
     obsidian
     logseq-og
     steam-run
     uv
-	godot
-	claude-code
-	unstable.codex
+    godot
+    unstable.claude-code
+    unstable.codex
     mpv
     tor-browser
     unstable.ayugram-desktop
     unstable.prismlauncher
     flclashx
+    genoffice
     kdePackages.ark
     unrar
     p7zip
@@ -112,5 +113,6 @@
     pinta
     # unstable.pkgName
     rustup
+	python314
   ];
 }

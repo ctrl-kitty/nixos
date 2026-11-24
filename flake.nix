@@ -112,6 +112,7 @@
             anirust = anirust.packages.${final.stdenv.hostPlatform.system}.default;
             libayatana-ido = final.callPackage ./pkgs/libayatana-ido.nix { };
             flclashx = final.callPackage ./pkgs/flclashx.nix { };
+            genoffice = final.callPackage ./pkgs/genoffice.nix { };
             proton-game = final.callPackage ./pkgs/proton-game { };
             logseq-og =
               (final.unstable.callPackage "${inputs.logseq-nixpkgs}/pkgs/by-name/lo/logseq-og/package.nix" { })
