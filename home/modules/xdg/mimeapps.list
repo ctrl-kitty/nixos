@@ -1,9 +1,13 @@
 [Added Associations]
+application/zip=org.kde.ark.desktop;
+image/jpeg=qimgv.desktop;
 image/png=qimgv.desktop;
 x-scheme-handler/tg=userapp-AyuGram Desktop-RFBXX3.desktop;
 x-scheme-handler/tonsite=userapp-AyuGram Desktop-SPJXX3.desktop;
 
 [Default Applications]
+application/zip=org.kde.ark.desktop;
+image/jpeg=qimgv.desktop;
 image/png=qimgv.desktop;
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 x-scheme-handler/discord=vesktop.desktop
